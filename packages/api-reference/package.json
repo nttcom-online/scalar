@@ -105,6 +105,7 @@
     "@scalar/api-client": "workspace:*",
     "@scalar/code-highlight": "workspace:*",
     "@scalar/components": "workspace:*",
+    "@scalar/core": "workspace:*",
     "@scalar/helpers": "workspace:*",
     "@scalar/icons": "workspace:*",
     "@scalar/oas-utils": "workspace:*",
@@ -127,7 +128,6 @@
   "devDependencies": {
     "@hono/node-server": "catalog:*",
     "@playwright/test": "catalog:*",
-    "@scalar/core": "workspace:*",
     "@scalar/galaxy": "workspace:*",
     "@tailwindcss/vite": "catalog:*",
     "@vitejs/plugin-vue": "catalog:*",

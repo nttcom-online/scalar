@@ -98,6 +98,7 @@ catalogs:
     yaml: ^2.8.0
     zod: ^4.3.5
     posthog-js: 1.363.2
+    vue-i18n: ^9.3.0
 ignoredBuiltDependencies:
   - '@firebase/util'
   - core-js

@@ -8,6 +8,7 @@ import { createHead } from '@unhead/vue/client'
 import { createApp, createSSRApp, h, reactive } from 'vue'
 
 import { default as ApiReference } from '@/components/ApiReference.vue'
+import { createApiReferenceI18n } from '@/i18n'
 
 const getSpecScriptTag = (doc: Document) => doc.getElementById('api-reference')
 
@@ -191,6 +192,7 @@ export const createApiReference: CreateApiReference = (
 
     // Meta tags, etc.
     referenceApp.use(createHead())
+    referenceApp.use(createApiReferenceI18n())
     referenceApp.config.idPrefix = idPrefix
 
     return referenceApp

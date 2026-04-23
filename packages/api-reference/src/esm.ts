@@ -4,6 +4,7 @@ import { createHead } from '@unhead/vue/client'
 import { createApp, reactive } from 'vue'
 
 import ApiReference from './components/ApiReference.vue'
+import { createApiReferenceI18n } from './i18n'
 
 /**
  * Initialize Scalar References
@@ -29,6 +30,7 @@ export function createScalarReferences(
 
   const head = createHead()
   app.use(head)
+  app.use(createApiReferenceI18n())
 
   // Set an id prefix for useId so we don't have collisions with other Vue apps
   app.config.idPrefix = 'scalar-refs'

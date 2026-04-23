@@ -26,6 +26,11 @@
       "import": "./dist/libs/html-rendering/index.js",
       "types": "./dist/libs/html-rendering/index.d.ts",
       "default": "./dist/libs/html-rendering/index.js"
+    },
+    "./libs/i18n": {
+      "import": "./dist/libs/i18n/index.js",
+      "types": "./dist/libs/i18n/index.d.ts",
+      "default": "./dist/libs/i18n/index.js"
     }
   },
   "files": [
@@ -34,7 +39,8 @@
   ],
   "dependencies": {
     "@scalar/client-side-rendering": "workspace:*",
-    "@scalar/types": "workspace:*"
+    "@scalar/types": "workspace:*",
+    "vue-i18n": "catalog:*"
   },
   "devDependencies": {
     "vite": "catalog:*"

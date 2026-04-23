@@ -326,6 +326,7 @@
     "@headlessui/tailwindcss": "catalog:*",
     "@headlessui/vue": "catalog:*",
     "@scalar/components": "workspace:*",
+    "@scalar/core": "workspace:*",
     "@scalar/helpers": "workspace:*",
     "@scalar/icons": "workspace:*",
     "@scalar/json-magic": "workspace:*",

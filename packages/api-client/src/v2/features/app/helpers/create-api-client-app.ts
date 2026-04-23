@@ -3,6 +3,7 @@ import type { Theme } from '@scalar/themes'
 import { createApp } from 'vue'
 import { createRouter as createVueRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 
+import { createApiClientI18n } from '@/i18n'
 import App from '@/v2/features/app/App.vue'
 import { createAppState } from '@/v2/features/app/app-state'
 import { ROUTES } from '@/v2/features/app/helpers/routes'
@@ -99,6 +100,7 @@ export const createApiClientApp = async (
     getCommandPaletteState: () => commandPaletteState,
     fetchRegistryDocument,
   })
+  app.use(createApiClientI18n())
   app.use(router)
 
   // Mount the vue app

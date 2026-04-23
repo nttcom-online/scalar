@@ -4,14 +4,15 @@ import type { WorkspaceStore } from '@scalar/workspace-store/client'
 import { type WorkspaceEventBus, createWorkspaceEventBus } from '@scalar/workspace-store/events'
 import { type App, type MaybeRefOrGetter, computed, createApp, isRef, reactive, ref, toValue, watch } from 'vue'
 
+import { createApiClientI18n } from '@/i18n'
 import {
   type DefaultEntities,
   type RoutePayload,
   resolveRouteParameters,
 } from '@/v2/features/modal/helpers/resolve-route-parameters'
-import type { ApiClientOptions, ApiClientOptionsRef } from '@/v2/types/options'
 import { useModalSidebar } from '@/v2/features/modal/hooks/use-modal-sidebar'
 import Modal, { type ModalProps } from '@/v2/features/modal/Modal.vue'
+import type { ApiClientOptions, ApiClientOptionsRef } from '@/v2/types/options'
 
 type CreateApiClientOptions = {
   /** Element to mount the client modal to. */
@@ -109,6 +110,7 @@ export const createApiClientModal = ({
     workspaceStore,
     options: optionsRef,
   } satisfies ModalProps)
+  app.use(createApiClientI18n())
 
   /** Restore the workspace store when the modal is closed. */
   const handleModalClose = () => {
