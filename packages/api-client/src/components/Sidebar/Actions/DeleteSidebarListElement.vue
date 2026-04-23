@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import SidebarListElementForm from '@/components/Sidebar/Actions/SidebarListElementForm.vue'
 
@@ -12,6 +13,7 @@ const emit = defineEmits<{
   (e: 'close'): void
   (e: 'delete'): void
 }>()
+const { t } = useI18n()
 
 const truncatedName = computed(() => {
   if (props.variableName.length > 18) {
@@ -19,11 +21,15 @@ const truncatedName = computed(() => {
   }
   return props.variableName
 })
+
+const deleteLabel = computed(() =>
+  t('apiClient.sidebar.delete', { name: truncatedName.value }),
+)
 </script>
 <template>
   <SidebarListElementForm
     danger
-    :label="`Delete ${truncatedName}`"
+    :label="deleteLabel"
     @cancel="emit('close')"
     @submit="emit('delete')">
     <p

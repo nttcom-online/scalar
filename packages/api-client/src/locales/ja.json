@@ -1,3 +1,11 @@
 {
-  "apiClient": {}
+  "apiClient": {
+    "workspace": {
+      "namePlaceholder": "ワークスペース名",
+      "add": "ワークスペースを追加"
+    },
+    "sidebar": {
+      "delete": "{name} を削除"
+    }
+  }
 }

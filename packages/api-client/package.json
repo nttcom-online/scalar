@@ -358,6 +358,7 @@
     "shell-quote": "^1.8.3",
     "vite-plugin-monaco-editor": "^1.1.0",
     "vue": "catalog:*",
+    "vue-i18n": "catalog:*",
     "vue-router": "catalog:*",
     "yaml": "catalog:*",
     "zod": "catalog:*"

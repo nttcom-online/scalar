@@ -1,3 +1,15 @@
 {
-  "apiReference": {}
+  "apiReference": {
+    "search": {
+      "label": "検索",
+      "open": "検索を開く",
+      "command": "コマンド",
+      "control": "Ctrl",
+      "modalLabel": "リファレンス検索",
+      "resultsLabel": "リファレンス検索結果",
+      "navigate": "↑↓ 移動",
+      "select": "⏎ 選択",
+      "instructions": "上下キーで移動し、Enter で選択、入力で結果を絞り込みます"
+    }
+  }
 }

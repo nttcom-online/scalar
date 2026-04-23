@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ScalarModal, type ModalState } from '@scalar/components'
 import { computed, ref, watch, type ComputedRef, type Ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import {
   CommandActionForm,
@@ -14,6 +15,7 @@ const { state } = defineProps<{
 const emit = defineEmits<{
   (e: 'create:workspace', payload: { name: string }): void
 }>()
+const { t } = useI18n()
 
 /** Name input for the new workspace. Resets whenever the modal opens. */
 const name: Ref<string> = ref('')
@@ -63,10 +65,10 @@ const handleSubmit = (): void => {
       <CommandActionInput
         v-model="name"
         class="-mt-[.5px] !p-0"
-        placeholder="Workspace name" />
+        :placeholder="t('apiClient.workspace.namePlaceholder')" />
 
       <!-- Submit button -->
-      <template #submit>Add Workspace</template>
+      <template #submit>{{ t('apiClient.workspace.add') }}</template>
     </CommandActionForm>
   </ScalarModal>
 </template>

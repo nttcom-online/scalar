@@ -9,6 +9,7 @@ import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
 import type { OpenApiDocument } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { nanoid } from 'nanoid'
 import { computed, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { useSearchIndex } from '@/features/Search/hooks/useSearchIndex'
 
@@ -28,6 +29,7 @@ const listboxId = `${id}-search-result`
 const instructionsId = `${id}-search-instructions`
 
 const { query, results } = useSearchIndex(() => props.document)
+const { t } = useI18n()
 
 const selectedIndex = ref<number | undefined>(undefined)
 
@@ -79,7 +81,7 @@ const activeDescendantId = computed(() => {
 </script>
 <template>
   <ScalarModal
-    aria-label="Reference Search"
+    :aria-label="t('apiReference.search.modalLabel')"
     :state="modalState"
     variant="search">
     <div
@@ -99,7 +101,7 @@ const activeDescendantId = computed(() => {
     </div>
     <ScalarSearchResultList
       :id="listboxId"
-      aria-label="Reference Search Results"
+      :aria-label="t('apiReference.search.resultsLabel')"
       class="custom-scroll px-1 pb-1"
       :noResults="!results.length">
       <template #query>
@@ -119,12 +121,11 @@ const activeDescendantId = computed(() => {
       <span
         aria-hidden="true"
         class="contents">
-        <span>↑↓ Navigate</span>
-        <span>⏎ Select</span>
+        <span>{{ t('apiReference.search.navigate') }}</span>
+        <span>{{ t('apiReference.search.select') }}</span>
       </span>
       <span class="sr-only">
-        Press up arrow / down arrow to navigate, enter to select, type to filter
-        results
+        {{ t('apiReference.search.instructions') }}
       </span>
     </div>
   </ScalarModal>

@@ -123,6 +123,7 @@
     "microdiff": "catalog:*",
     "nanoid": "catalog:*",
     "vue": "catalog:*",
+    "vue-i18n": "catalog:*",
     "yaml": "catalog:*"
   },
   "devDependencies": {

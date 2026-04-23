@@ -9,6 +9,7 @@ import { ScalarIconMagnifyingGlass } from '@scalar/icons'
 import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
 import type { OpenApiDocument } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import SearchModal from './SearchModal.vue'
 
@@ -22,6 +23,7 @@ const { searchHotKey = 'k', hideModels = false } = defineProps<{
 
 const button = ref<InstanceType<typeof ScalarSidebarSearchButton>>()
 const modalState = useModal()
+const { t } = useI18n()
 
 const handleHotKey = (e: KeyboardEvent) => {
   if ((isMacOS() ? e.metaKey : e.ctrlKey) && e.key === searchHotKey) {
@@ -61,7 +63,7 @@ function handleClick() {
   <ScalarIconButton
     v-if="forceIcon"
     :icon="ScalarIconMagnifyingGlass"
-    label="Search"
+    :label="t('apiReference.search.label')"
     @click="handleClick" />
   <ScalarSidebarSearchButton
     v-else
@@ -69,19 +71,19 @@ function handleClick() {
     class="w-full"
     :class="$attrs.class"
     @click="handleClick">
-    <span class="sr-only">Open Search</span>
+    <span class="sr-only">{{ t('apiReference.search.open') }}</span>
     <span
       aria-hidden="true"
       class="sidebar-search-placeholder">
-      Search
+      {{ t('apiReference.search.label') }}
     </span>
     <template #shortcut>
       <template v-if="isMacOS()">
-        <span class="sr-only">Command</span>
+        <span class="sr-only">{{ t('apiReference.search.command') }}</span>
         <span aria-hidden="true">⌘</span>
       </template>
       <template v-else>
-        <span class="sr-only">CTRL</span>
+        <span class="sr-only">{{ t('apiReference.search.control') }}</span>
         <span aria-hidden="true">⌃</span>
       </template>
       {{ searchHotKey }}

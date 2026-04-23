@@ -1,3 +1,15 @@
 {
-  "apiReference": {}
+  "apiReference": {
+    "search": {
+      "label": "Search",
+      "open": "Open Search",
+      "command": "Command",
+      "control": "CTRL",
+      "modalLabel": "Reference Search",
+      "resultsLabel": "Reference Search Results",
+      "navigate": "↑↓ Navigate",
+      "select": "⏎ Select",
+      "instructions": "Press up arrow / down arrow to navigate, enter to select, type to filter results"
+    }
+  }
 }
