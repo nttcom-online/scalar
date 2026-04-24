@@ -6,6 +6,12 @@
     },
     "sidebar": {
       "delete": "{name} を削除"
+    },
+    "search": {
+      "label": "検索",
+      "queryLabel": "検索語を入力",
+      "queryPlaceholder": "検索...",
+      "clear": "検索をクリア"
     }
   }
 }

@@ -18,10 +18,12 @@ import { onMounted, ref } from 'vue'
 import { ScalarIconButton } from '../ScalarIconButton'
 import { type LoadingState, ScalarLoading } from '../ScalarLoading'
 
-const { autofocus } = defineProps<{
+const { autofocus, label, placeholder, clearLabel } = defineProps<{
   autofocus?: boolean
   loader?: LoadingState
   label?: string
+  placeholder?: string
+  clearLabel?: string
 }>()
 
 const inputRef = ref<HTMLInputElement | null>(null)
@@ -60,7 +62,7 @@ onMounted(() => autofocus && inputRef.value?.focus())
       autocomplete="off"
       autocorrect="off"
       class="flex-1 appearance-none rounded border-none bg-transparent outline-none"
-      placeholder="Search..."
+      :placeholder="placeholder ?? 'Search...'"
       spellcheck="false"
       type="search" />
     <ScalarLoading
@@ -72,7 +74,7 @@ onMounted(() => autofocus && inputRef.value?.focus())
       v-else-if="model"
       class="p-0.25 size-4"
       :icon="ScalarIconX"
-      label="Clear Search"
+      :label="clearLabel ?? 'Clear Search'"
       weight="bold"
       @click.stop.prevent="handleClear" />
   </label>

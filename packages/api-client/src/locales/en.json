@@ -6,6 +6,12 @@
     },
     "sidebar": {
       "delete": "Delete {name}"
+    },
+    "search": {
+      "label": "Search",
+      "queryLabel": "Enter search query",
+      "queryPlaceholder": "Search...",
+      "clear": "Clear Search"
     }
   }
 }

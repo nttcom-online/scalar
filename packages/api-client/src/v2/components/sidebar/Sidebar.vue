@@ -14,6 +14,7 @@ import {
 import type { WorkspaceDocument } from '@scalar/workspace-store/schemas'
 import type { TraversedEntry } from '@scalar/workspace-store/schemas/navigation'
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { Resize } from '@/v2/components/resize'
 import { useSearchIndex } from '@/v2/features/search'
@@ -54,6 +55,8 @@ const emit = defineEmits<{
   /** Emitted when the user wants to open the settings */
   (e: 'navigate:to:settings'): void
 }>()
+
+const { t } = useI18n()
 
 const slots = defineSlots<{
   /** Slot to add the workspace button */
@@ -150,7 +153,7 @@ const handleSelectItem = (id: string) => {
               <ScalarIconButton
                 class="hover:bg-b-2 active:text-c-1 size-8 rounded p-2"
                 :icon="ScalarIconMagnifyingGlass"
-                label="Search"
+                :label="t('apiClient.search.label')"
                 size="sm"
                 @click="isSearchVisible = !isSearchVisible" />
             </div>
@@ -158,7 +161,10 @@ const handleSelectItem = (id: string) => {
             <ScalarSidebarSearchInput
               v-if="isSearchVisible || layout === 'web'"
               v-model="query"
-              :autofocus="layout !== 'web'" />
+              :autofocus="layout !== 'web'"
+              :clearLabel="t('apiClient.search.clear')"
+              :label="t('apiClient.search.queryLabel')"
+              :placeholder="t('apiClient.search.queryPlaceholder')" />
           </div>
         </template>
 
