@@ -2,6 +2,7 @@
 import type { HttpMethod } from '@scalar/helpers/http/http-methods'
 import { ScalarIconPlay } from '@scalar/icons'
 import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
+import { useI18n } from 'vue-i18n'
 
 import ScreenReader from '@/components/ScreenReader.vue'
 
@@ -22,6 +23,8 @@ const {
 }>()
 
 /** Route via ID and optionally with example name */
+const { t } = useI18n()
+
 const handleClick = () => {
   // Include exampleName in payload if provided
   const payload = {
@@ -45,7 +48,7 @@ const handleClick = () => {
     <ScalarIconPlay
       class="size-3"
       weight="fill" />
-    <span>Test Request</span>
+    <span>{{ t('apiReference.testRequest.label') }}</span>
     <ScreenReader>({{ method }} {{ path }})</ScreenReader>
   </button>
 </template>

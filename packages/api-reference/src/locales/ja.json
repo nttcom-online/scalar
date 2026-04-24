@@ -28,6 +28,13 @@
     },
     "webhooks": {
       "title": "Webhooks"
+    },
+    "askAgent": {
+      "label": "AIエージェントに質問",
+      "placeholder": "AIエージェントに質問"
+    },
+    "testRequest": {
+      "label": "テストリクエスト"
     }
   }
 }

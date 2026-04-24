@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ScalarIconArrowUp, ScalarIconSparkle } from '@scalar/icons'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { useAgentContext } from '@/hooks/use-agent'
 
@@ -13,6 +14,8 @@ function handleSubmit() {
   agentContext.value?.openAgent(message.value)
   message.value = ''
 }
+
+const { t } = useI18n()
 </script>
 <template>
   <form
@@ -23,13 +26,15 @@ function handleSubmit() {
     <ScalarIconSparkle
       class="size-3 shrink-0"
       weight="fill" />
-    <div class="ask-agent-scalar-input-label">Ask AI Agent</div>
+    <div class="ask-agent-scalar-input-label">
+      {{ t('apiReference.askAgent.label') }}
+    </div>
     <input
       ref="inputRef"
       v-model="message"
       class="ask-agent-scalar-input"
       :class="{ 'ask-agent-scalar-input-not-empty': message.length > 0 }"
-      placeholder="Ask AI Agent" />
+      :placeholder="t('apiReference.askAgent.placeholder')" />
     <button
       class="ask-agent-scalar-send"
       type="submit">

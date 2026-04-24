@@ -28,6 +28,13 @@
     },
     "webhooks": {
       "title": "Webhooks"
+    },
+    "askAgent": {
+      "label": "Ask AI Agent",
+      "placeholder": "Ask AI Agent"
+    },
+    "testRequest": {
+      "label": "Test Request"
     }
   }
 }
