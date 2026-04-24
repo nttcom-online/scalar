@@ -9,6 +9,7 @@ import type {
   SchemaObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { computed, inject, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import type { SchemaOptions } from '@/components/Content/Schema/types'
 import {
@@ -148,6 +149,8 @@ const selectedComposition = computed(
 /** Controls whether the nested schema is displayed */
 const showNestedSchema = ref(false)
 
+const { t } = useI18n()
+
 if (
   requestBodyCompositionSelectionRef &&
   props.schemaContext === 'requestBody' &&
@@ -221,7 +224,7 @@ if (
           class="bg-b-1 hover:bg-b-2 text-c-1 flex w-full items-center justify-center gap-2 rounded-b-lg border border-t-0 px-2 py-2 text-sm font-medium transition-colors"
           type="button"
           @click="showNestedSchema = true">
-          Show Schema Details
+          {{ t('apiReference.showSchema.details') }}
           <ScalarIconCaretDown class="h-3 w-3" />
         </button>
 

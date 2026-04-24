@@ -16,6 +16,7 @@ import type {
   ResponsesObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { computed, ref, toValue, useId, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import ScreenReader from '@/components/ScreenReader.vue'
 import ExampleSchema from '@/features/example-responses/ExampleSchema.vue'
@@ -119,6 +120,8 @@ const changeTab = (index: number) => {
 }
 
 const showSchema = ref(false)
+
+const { t } = useI18n()
 </script>
 <template>
   <ScalarCard
@@ -148,7 +151,7 @@ const showSchema = ref(false)
         <label
           v-if="currentResponseContent?.schema"
           class="scalar-card-checkbox">
-          Show Schema
+          {{ t('apiReference.showSchema.label') }}
           <input
             v-model="showSchema"
             :aria-controls="id"

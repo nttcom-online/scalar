@@ -35,6 +35,10 @@
     },
     "testRequest": {
       "label": "テストリクエスト"
+    },
+    "showSchema": {
+      "label": "スキーマを表示",
+      "details": "スキーマの詳細を表示"
     }
   }
 }

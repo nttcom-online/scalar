@@ -35,6 +35,10 @@
     },
     "testRequest": {
       "label": "Test Request"
+    },
+    "showSchema": {
+      "label": "Show Schema",
+      "details": "Show Schema Details"
     }
   }
 }
