@@ -12,6 +12,15 @@
       "queryLabel": "Enter search query",
       "queryPlaceholder": "Search...",
       "clear": "Clear Search"
-    }
+    },
+    "send": {
+      "label": "Send",
+      "sr": "Send {method} request to {server}{path}"
+    },
+    "sendRequest": {
+      "label": "Send Request"
+    },
+    "getStarted": "Get Started",
+    "newRequest": "New Request"
   }
 }

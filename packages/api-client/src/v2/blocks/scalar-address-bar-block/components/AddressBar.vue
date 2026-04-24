@@ -62,6 +62,7 @@ import {
   useTemplateRef,
   watch,
 } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { HttpMethod } from '@/components/HttpMethod'
 import { useLoadingAnimation } from '@/v2/blocks/scalar-address-bar-block/hooks/use-loading-animation'
@@ -89,6 +90,8 @@ const emit = defineEmits<{
   /** Select a request history item by index */
   (e: 'select:history:item', payload: { index: number }): void
 }>()
+
+const { t } = useI18n()
 
 const id = useId()
 const { percentage, startLoading, stopLoading, isLoading } =
@@ -476,11 +479,17 @@ defineExpose({
             class="relative shrink-0 fill-current"
             icon="Play"
             size="xs" />
-          <span class="text-xxs hidden lg:flex">Send</span>
+          <span class="text-xxs hidden lg:flex">{{
+            t('apiClient.send.label')
+          }}</span>
         </span>
-        <span class="sr-only">
-          Send {{ method }} request to {{ server?.url ?? '' }}{{ path }}
-        </span>
+        <span class="sr-only">{{
+          t('apiClient.send.sr', {
+            method: method.toUpperCase(),
+            server: server?.url ?? '',
+            path,
+          })
+        }}</span>
       </ScalarButton>
     </div>
   </div>

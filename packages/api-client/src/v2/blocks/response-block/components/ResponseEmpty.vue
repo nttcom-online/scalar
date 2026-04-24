@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ScalarHotkey } from '@scalar/components'
+import { useI18n } from 'vue-i18n'
 
 import Computer from '@/assets/computer.ascii?raw'
 import ScalarAsciiArt from '@/components/ScalarAsciiArt.vue'
@@ -19,6 +20,8 @@ const emits = defineEmits<{
   (e: 'sendRequest'): void
   (e: 'openCommandPalette'): void
 }>()
+
+const { t } = useI18n()
 </script>
 <template>
   <div class="flex-center relative flex flex-1 flex-col gap-6 p-2 capitalize">
@@ -57,7 +60,7 @@ const emits = defineEmits<{
         class="flex items-center gap-1.5"
         type="button"
         @click="emits('openCommandPalette')">
-        Get Started
+        {{ t('apiClient.getStarted') }}
         <ScalarHotkey
           hotkey="k"
           :modifier="['default']" />
@@ -67,14 +70,14 @@ const emits = defineEmits<{
         class="flex items-center gap-1.5"
         type="button"
         @click="emits('addRequest')">
-        New Request
+        {{ t('apiClient.newRequest') }}
         <ScalarHotkey hotkey="N" />
       </button>
       <button
         class="flex items-center gap-1.5"
         type="button"
         @click="emits('sendRequest')">
-        Send Request
+        {{ t('apiClient.sendRequest.label') }}
         <ScalarHotkey hotkey="↵" />
       </button>
     </div>
