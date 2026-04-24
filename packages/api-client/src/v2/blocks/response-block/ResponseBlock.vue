@@ -5,6 +5,7 @@ import type { ClientPlugin } from '@scalar/oas-utils/helpers'
 import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
 import type { RequestPayload } from '@scalar/workspace-store/request-example'
 import { computed, ref, useId } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import SectionFilter from '@/components/SectionFilter.vue'
 import ViewLayoutSection from '@/components/ViewLayout/ViewLayoutSection.vue'
@@ -99,6 +100,8 @@ const shouldVirtualize = computed(() => {
   return isTextBased && (response.size ?? 0) > VIRTUALIZATION_THRESHOLD
 })
 
+const { t } = useI18n()
+
 const requestHeaders = computed(() => {
   const headers = requestPayload?.[1]?.headers
   if (!headers) {
@@ -132,7 +135,7 @@ defineExpose({
 })
 </script>
 <template>
-  <ViewLayoutSection aria-label="Response">
+  <ViewLayoutSection :aria-label="t('apiClient.labels.response')">
     <template #title>
       <div class="flex h-8 flex-1 items-center">
         <div
@@ -140,7 +143,7 @@ defineExpose({
           class="flex items-center"
           :class="{ 'animate-response-heading': response }">
           <span class="response-heading pointer-events-none absolute">
-            Response
+            {{ t('apiClient.labels.response') }}
           </span>
           <ResponseMetaInformation
             v-if="response"
@@ -190,7 +193,7 @@ defineExpose({
           class="response-section-content-headers"
           :headers="requestHeaders"
           :role="activeFilter === 'All' ? 'none' : 'tabpanel'">
-          <template #title>Request Headers</template>
+          <template #title>{{ t('apiClient.labels.requestHeaders') }}</template>
         </HeadersComponent>
         <!-- Response headers section -->
         <HeadersComponent
@@ -199,7 +202,9 @@ defineExpose({
           class="response-section-content-headers"
           :headers="responseHeaders"
           :role="activeFilter === 'All' ? 'none' : 'tabpanel'">
-          <template #title>Response Headers</template>
+          <template #title>{{
+            t('apiClient.labels.responseHeaders')
+          }}</template>
         </HeadersComponent>
 
         <!-- Inject response section plugin components -->
@@ -241,7 +246,7 @@ defineExpose({
             layout="client"
             :plugins="plugins"
             :role="activeFilter === 'All' ? 'none' : 'tabpanel'"
-            title="Body" />
+            :title="t('apiClient.labels.body')" />
         </template>
       </template>
       <ResponseLoadingOverlay :eventBus="eventBus" />

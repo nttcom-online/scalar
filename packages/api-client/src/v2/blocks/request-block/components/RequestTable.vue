@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { XScalarEnvironment } from '@scalar/workspace-store/schemas/extensions/document/x-scalar-environments'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import RequestTableRow, {
   type TableRow,
@@ -61,6 +62,8 @@ const columns = computed(() => {
   return ['36px', '', '']
 })
 
+const { t } = useI18n()
+
 /** Add the last empty row (for ui purposes only) */
 const displayData = computed(() => {
   if (!showAddRowPlaceholder) {
@@ -81,9 +84,21 @@ const displayData = computed(() => {
     class="group/table flex-1"
     :columns="columns">
     <DataTableRow class="sr-only !block">
-      <DataTableHeader>{{ label }} Enabled</DataTableHeader>
-      <DataTableHeader>{{ label }} Key</DataTableHeader>
-      <DataTableHeader>{{ label }} Value</DataTableHeader>
+      <DataTableHeader>{{
+        label
+          ? `${label} ${t('apiClient.labels.enabled')}`
+          : t('apiClient.labels.enabled')
+      }}</DataTableHeader>
+      <DataTableHeader>{{
+        label
+          ? `${label} ${t('apiClient.labels.key')}`
+          : t('apiClient.labels.key')
+      }}</DataTableHeader>
+      <DataTableHeader>{{
+        label
+          ? `${label} ${t('apiClient.labels.value')}`
+          : t('apiClient.labels.value')
+      }}</DataTableHeader>
     </DataTableRow>
 
     <RequestTableRow

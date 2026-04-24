@@ -27,6 +27,7 @@ import type {
   ServerObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { computed, ref, useId } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import DeleteRequestAuthModal from '@/v2/blocks/scalar-auth-selector-block/components/DeleteRequestAuthModal.vue'
 import type { OAuth2Options } from '@/v2/blocks/scalar-auth-selector-block/components/OAuth2.vue'
@@ -90,7 +91,13 @@ const schemeToDelete = ref<{
  * Auth is optional when there is an empty security requirement and no complex requirements.
  * Complex requirements have multiple auth schemes combined (e.g., API key + OAuth).
  */
-const authIndicator = computed<{ icon: Icon; text: string } | null>(() => {
+const { t } = useI18n()
+
+const authIndicator = computed<{
+  icon: Icon
+  text: string
+  isOptional: boolean
+} | null>(() => {
   if (!securityRequirements?.length) {
     return null
   }
@@ -99,7 +106,10 @@ const authIndicator = computed<{ icon: Icon; text: string } | null>(() => {
 
   return {
     icon: isOptional ? 'Unlock' : 'Lock',
-    text: isOptional ? 'Optional' : 'Required',
+    text: isOptional
+      ? t('apiClient.labels.optional')
+      : t('apiClient.labels.required'),
+    isOptional,
   }
 })
 
@@ -229,7 +239,7 @@ defineExpose({
         <span
           v-if="authIndicator"
           class="text-c-3 hover:bg-b-3 hover:text-c-1 -my-0.5 -mr-1 cursor-pointer rounded px-1 py-0.5 leading-[normal] font-normal"
-          :class="{ 'text-c-1': authIndicator.text === 'Required' }"
+          :class="{ 'text-c-1': authIndicator && !authIndicator.isOptional }"
           data-testid="auth-indicator"
           @click="handleAuthIndicatorClick">
           {{ authIndicator.text }}

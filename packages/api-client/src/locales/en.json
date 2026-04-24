@@ -25,6 +25,45 @@
       "copyFailed": "Failed to copy to clipboard"
     },
     "getStarted": "Get Started",
-    "newRequest": "New Request"
+    "newRequest": "New Request",
+    "labels": {
+      "authentication": "Authentication",
+      "required": "Required",
+      "jwtBearer": "JWT Bearer token authentication",
+      "optional": "Optional",
+      "bearerToken": "Bearer Token",
+      "cookies": "Cookies",
+      "headers": "Headers",
+      "queryParameters": "Query Parameters",
+      "requestBody": "Request Body",
+      "variables": "Variables",
+      "response": "Response",
+      "body": "Body",
+      "requestHeaders": "Request Headers",
+      "responseHeaders": "Response Headers",
+      "codeSnippet": "Code Snippet",
+      "token": "Token",
+      "apiKeyPlaceholder": "api-key",
+      "key": "Key",
+      "enabled": "Enabled",
+      "name": "Name",
+      "value": "Value",
+      "username": "Username",
+      "usernamePlaceholder": "janedoe",
+      "password": "Password",
+      "passwordPlaceholder": "********"
+    },
+    "filters": {
+      "All": "All",
+      "Auth": "Auth",
+      "Cookies": "Cookies",
+      "Headers": "Headers",
+      "Query": "Query",
+      "Body": "Body"
+    },
+    "table": {
+      "key": "Key",
+      "value": "Value"
+    }
   }
 }

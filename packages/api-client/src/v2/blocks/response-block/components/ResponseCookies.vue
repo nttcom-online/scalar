@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
 import {
   DataTable,
   DataTableHeader,
@@ -10,13 +12,15 @@ import { CollapsibleSection } from '@/v2/components/layout'
 defineProps<{
   cookies: { name: string; value: string }[]
 }>()
+
+const { t } = useI18n()
 </script>
 <template>
   <CollapsibleSection
     class="overflow-auto"
     :defaultOpen="false"
     :itemCount="cookies.length">
-    <template #title>Cookies</template>
+    <template #title>{{ t('apiClient.labels.cookies') }}</template>
     <div
       v-if="cookies.length"
       class="max-h-[calc(100%-32px)] overflow-y-auto">
@@ -24,8 +28,8 @@ defineProps<{
         :columns="['minmax(auto, min-content)', 'minmax(50%, 1fr)']"
         scroll>
         <DataTableRow class="sr-only !block">
-          <DataTableHeader>Cookie Name</DataTableHeader>
-          <DataTableHeader>Cookie Value</DataTableHeader>
+          <DataTableHeader>{{ t('apiClient.table.key') }}</DataTableHeader>
+          <DataTableHeader>{{ t('apiClient.table.value') }}</DataTableHeader>
         </DataTableRow>
         <DataTableRow
           v-for="(item, index) in cookies"

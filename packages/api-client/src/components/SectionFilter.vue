@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T extends string">
 import { ScalarIcon } from '@scalar/components'
 import { nextTick, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import SectionFilterButton from '@/components/SectionFilterButton.vue'
 
@@ -12,6 +13,7 @@ const { filters = [], filterIds } = defineProps<{
 const model = defineModel<T>()
 
 const tablist = ref<HTMLDivElement>()
+const { t } = useI18n()
 
 /** Keyboard navigation */
 const navigateSection = (direction: 'next' | 'prev') => {
@@ -53,11 +55,13 @@ const navigateSection = (direction: 'next' | 'prev') => {
         role="tab"
         :selected="model === filter"
         @click="model = filter">
-        {{ filter }}
+        {{ t(`apiClient.filters.${filter}`) }}
       </SectionFilterButton>
       <div
         class="filter-button context-bar-group-hover:text-c-1 absolute -right-[30px] flex items-center">
-        <span class="context-bar-group-hover:hidden mr-1.5">{{ model }}</span>
+        <span class="context-bar-group-hover:hidden mr-1.5">{{
+          model ? t(`apiClient.filters.${model}`) : ''
+        }}</span>
         <ScalarIcon
           icon="FilterList"
           size="md"

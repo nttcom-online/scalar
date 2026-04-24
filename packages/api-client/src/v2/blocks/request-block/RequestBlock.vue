@@ -30,6 +30,7 @@ import type {
   ServerObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { computed, ref, useId, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import SectionFilter from '@/components/SectionFilter.vue'
 import ViewLayoutSection from '@/components/ViewLayout/ViewLayoutSection.vue'
@@ -418,6 +419,7 @@ const handleUpdateBodyFormValue = ({
 }
 
 const labelRequestNameId = useId()
+const { t } = useI18n()
 
 const globalCookies = computed(() => [...workspaceCookies, ...documentCookies])
 
@@ -475,7 +477,7 @@ const updateOperationExtension = (
         :selectedSecurity
         :selectedSecuritySchemes
         :server
-        title="Authentication" />
+        :title="t('apiClient.labels.authentication')" />
 
       <!-- Variables (Path Parameters) -->
       <RequestParams
@@ -486,7 +488,7 @@ const updateOperationExtension = (
         :exampleKey
         :rows="sections.path ?? []"
         :showAddRowPlaceholder="false"
-        title="Variables"
+        :title="t('apiClient.labels.variables')"
         v-on="parameterHandlers.path" />
 
       <!-- Cookies -->
@@ -498,7 +500,7 @@ const updateOperationExtension = (
         :exampleKey
         :rows="cookies ?? []"
         :showAddRowPlaceholder="true"
-        title="Cookies"
+        :title="t('apiClient.labels.cookies')"
         v-on="parameterHandlers.cookie" />
 
       <!-- Headers -->
@@ -509,7 +511,7 @@ const updateOperationExtension = (
         :eventBus
         :exampleKey
         :rows="headers ?? []"
-        title="Headers"
+        :title="t('apiClient.labels.headers')"
         v-on="parameterHandlers.header" />
 
       <!-- Query Parameters -->
@@ -520,7 +522,7 @@ const updateOperationExtension = (
         :eventBus
         :exampleKey
         :rows="sections.query ?? []"
-        title="Query Parameters"
+        :title="t('apiClient.labels.queryParameters')"
         v-on="parameterHandlers.query" />
 
       <!-- Request Body -->
@@ -531,7 +533,7 @@ const updateOperationExtension = (
         :exampleKey
         :requestBody="getResolvedRef(operation.requestBody)"
         :requestBodyCompositionSelection
-        title="Request Body"
+        :title="t('apiClient.labels.requestBody')"
         @update:contentType="handleUpdateContentType"
         @update:formValue="handleUpdateBodyFormValue"
         @update:value="handleUpdateBodyValue" />

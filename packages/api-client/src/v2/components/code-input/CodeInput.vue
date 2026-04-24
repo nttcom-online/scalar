@@ -53,6 +53,7 @@ import {
 import type { XScalarEnvironment } from '@scalar/workspace-store/schemas/extensions/document/x-scalar-environments'
 import { nanoid } from 'nanoid'
 import { computed, ref, toRef, useAttrs, watch, type Ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import DataTableInputSelect from '@/v2/components/data-table/DataTableInputSelect.vue'
 import EnvironmentVariableDropdown from '@/v2/features/environments/components/EnvironmentVariablesDropdown.vue'
@@ -322,6 +323,8 @@ const { codeMirror, setCodeMirrorContent } = useCodeMirror({
   placeholder: toRef(() => placeholder),
 })
 
+const { t } = useI18n()
+
 /**
  * Handle autofocus attribute.
  */
@@ -522,7 +525,7 @@ defineExpose({
   <div
     v-if="required"
     class="required centered-y text-xxs text-c-3 group-[.error]:text-red bg-b-1 pointer-events-none absolute right-0 mr-0.5 pt-px pr-2 opacity-100 shadow-[-8px_0_4px_var(--scalar-background-1)] transition-opacity duration-150 group-[.alert]:bg-transparent group-[.alert]:shadow-none group-[.error]:bg-transparent group-[.error]:shadow-none peer-has-[.cm-focused]:opacity-0">
-    Required
+    {{ t('apiClient.labels.required') }}
   </div>
 
   <!-- Environment variable autocomplete dropdown -->

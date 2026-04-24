@@ -8,6 +8,7 @@ import {
 import { ScalarIconCaretDown } from '@scalar/icons'
 import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
 import { computed, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import {
   findClient,
@@ -99,6 +100,8 @@ const generatedCode = computed<string>(() =>
 const hasClients = computed(() =>
   clients.value.some((group) => group.options.length > 0),
 )
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -106,7 +109,7 @@ const hasClients = computed(() =>
     v-show="hasClients"
     class="group/preview w-full border-t"
     :defaultOpen="false">
-    <template #title>Code Snippet</template>
+    <template #title>{{ t('apiClient.labels.codeSnippet') }}</template>
 
     <!-- Client selector -->
     <template #actions>

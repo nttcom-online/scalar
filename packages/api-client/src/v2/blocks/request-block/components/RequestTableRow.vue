@@ -10,6 +10,7 @@ import type {
   SchemaObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { computed, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { getFileName } from '@/v2/blocks/request-block/helpers/files'
 import { validateParameter } from '@/v2/blocks/request-block/helpers/validate-parameter'
@@ -113,6 +114,7 @@ const displayValue = computed(
 
 const defaultValue = computed(() => data.schema?.default as string)
 
+const { t } = useI18n()
 /** See if we can extract enum values from the schema */
 const enumValue = computed<string[]>(() => {
   if (!data.schema) {
@@ -189,7 +191,11 @@ const handleUpdateRow = (
     <!-- Name -->
     <DataTableCell>
       <CodeInput
-        :aria-label="`${label} Key`"
+        :aria-label="
+          label
+            ? `${label} ${t('apiClient.labels.key')}`
+            : t('apiClient.labels.key')
+        "
         disableCloseBrackets
         :disabled="data.isReadonly"
         disableEnter
@@ -197,7 +203,7 @@ const handleUpdateRow = (
         :environment="environment"
         lineWrapping
         :modelValue="name"
-        placeholder="Key"
+        :placeholder="t('apiClient.labels.key')"
         :required="Boolean(data.isRequired)"
         @navigate="(route) => emit('navigate', route)"
         @selectVariable="(v: string) => handleUpdateRow({ name: v })"
@@ -207,7 +213,11 @@ const handleUpdateRow = (
     <!-- Value -->
     <DataTableCell>
       <CodeInput
-        :aria-label="`${label} Value`"
+        :aria-label="
+          label
+            ? `${label} ${t('apiClient.labels.value')}`
+            : t('apiClient.labels.value')
+        "
         class="pr-6 group-hover:pr-10 group-has-[.cm-focused]:pr-10"
         :default="defaultValue"
         disableCloseBrackets
@@ -224,7 +234,7 @@ const handleUpdateRow = (
         :max="maximumValue"
         :min="minimumValue"
         :modelValue="displayValue"
-        placeholder="Value"
+        :placeholder="t('apiClient.labels.value')"
         :type="typeValue"
         withFakeData
         @navigate="(route) => emit('navigate', route)"

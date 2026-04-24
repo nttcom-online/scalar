@@ -25,6 +25,45 @@
       "copyFailed": "クリップボードへのコピーに失敗しました"
     },
     "getStarted": "はじめに",
-    "newRequest": "新しいリクエスト"
+    "newRequest": "新しいリクエスト",
+    "labels": {
+      "authentication": "認証",
+      "required": "必須",
+      "jwtBearer": "JWT Bearerトークン認証",
+      "optional": "任意",
+      "bearerToken": "Bearerトークン",
+      "cookies": "Cookie",
+      "headers": "ヘッダー",
+      "queryParameters": "クエリパラメータ",
+      "requestBody": "リクエストボディ",
+      "variables": "変数",
+      "response": "レスポンス",
+      "body": "ボディ",
+      "requestHeaders": "リクエストヘッダー",
+      "responseHeaders": "レスポンスヘッダー",
+      "codeSnippet": "コードスニペット",
+      "token": "トークン",
+      "apiKeyPlaceholder": "api-key",
+      "key": "キー",
+      "enabled": "有効",
+      "name": "名前",
+      "value": "値",
+      "username": "ユーザー名",
+      "usernamePlaceholder": "janedoe",
+      "password": "パスワード",
+      "passwordPlaceholder": "********"
+    },
+    "filters": {
+      "All": "すべて",
+      "Auth": "認証",
+      "Cookies": "Cookie",
+      "Headers": "ヘッダー",
+      "Query": "クエリ",
+      "Body": "ボディ"
+    },
+    "table": {
+      "key": "キー",
+      "value": "値"
+    }
   }
 }

@@ -20,6 +20,7 @@ import type {
   ServerObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { capitalize, computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { DataTableCell, DataTableRow } from '@/v2/components/data-table'
 
@@ -67,6 +68,25 @@ const emits = defineEmits<{
     payload: Omit<ApiReferenceEvents['auth:update:selected-scopes'], 'meta'>,
   ): void
 }>()
+
+const { t } = useI18n()
+
+/** Prefer a localized description for certain well-known schemes (e.g., JWT Bearer) */
+const getDisplayedDescription = (
+  scheme: SecuritySchemeObjectSecret | undefined,
+): string | undefined => {
+  if (!scheme) return undefined
+
+  if (scheme.type === 'http' && scheme.scheme === 'bearer') {
+    const bearerFormat = String(scheme.bearerFormat ?? '')
+    const desc = String(scheme.description ?? '')
+    if (/jwt/i.test(bearerFormat) || /jwt/i.test(desc)) {
+      return t('apiClient.labels.jwtBearer')
+    }
+  }
+
+  return scheme.description
+}
 
 /**
  * Resolves security schemes from the OpenAPI document and combines them with their selected scopes.
@@ -129,6 +149,13 @@ const generateLabel = (
     }
 
     case 'http':
+      // Show a more descriptive label for JWT bearer formats
+      if (
+        scheme.scheme === 'bearer' &&
+        /jwt/i.test(String(scheme.bearerFormat ?? ''))
+      ) {
+        return `${capitalizedName}: ${t('apiClient.labels.jwtBearer')}`
+      }
       return `${capitalizedName}: ${scheme.scheme}`
 
     default:
@@ -223,13 +250,17 @@ const getFlowTabClasses = (flowKey: string, index: number): string => {
     </DataTableRow>
 
     <!-- Description: shown for single auth schemes with descriptions -->
-    <DataTableRow v-if="scheme?.description && !hasMultipleSchemes">
+    <DataTableRow
+      v-if="
+        (scheme?.description || getDisplayedDescription(scheme)) &&
+        !hasMultipleSchemes
+      ">
       <DataTableCell
-        :aria-label="scheme.description"
+        :aria-label="getDisplayedDescription(scheme) || scheme?.description"
         class="max-h-[auto]">
         <ScalarMarkdownSummary
           class="auth-description bg-b-1 text-c-2 min-w-0 flex-1 px-3 py-1.25"
-          :value="scheme.description" />
+          :value="getDisplayedDescription(scheme) || scheme?.description" />
       </DataTableCell>
     </DataTableRow>
 
@@ -241,12 +272,12 @@ const getFlowTabClasses = (flowKey: string, index: number): string => {
           :containerClass="getStaticBorderClass()"
           :environment
           :modelValue="scheme['x-scalar-secret-token']"
-          placeholder="Token"
+          :placeholder="t('apiClient.labels.token')"
           type="password"
           @update:modelValue="
             (v) => handleHttpSecretsUpdate({ 'x-scalar-secret-token': v }, name)
           ">
-          Bearer Token
+          {{ t('apiClient.labels.bearerToken') }}
         </RequestAuthDataTableInput>
       </DataTableRow>
 
@@ -257,26 +288,26 @@ const getFlowTabClasses = (flowKey: string, index: number): string => {
             class="text-c-2"
             :environment
             :modelValue="scheme['x-scalar-secret-username']"
-            placeholder="janedoe"
+            :placeholder="t('apiClient.labels.usernamePlaceholder')"
             required
             @update:modelValue="
               (v) =>
                 handleHttpSecretsUpdate({ 'x-scalar-secret-username': v }, name)
             ">
-            Username
+            {{ t('apiClient.labels.username') }}
           </RequestAuthDataTableInput>
         </DataTableRow>
         <DataTableRow>
           <RequestAuthDataTableInput
             :environment
             :modelValue="scheme['x-scalar-secret-password']"
-            placeholder="********"
+            :placeholder="t('apiClient.labels.passwordPlaceholder')"
             type="password"
             @update:modelValue="
               (v) =>
                 handleHttpSecretsUpdate({ 'x-scalar-secret-password': v }, name)
             ">
-            Password
+            {{ t('apiClient.labels.password') }}
           </RequestAuthDataTableInput>
         </DataTableRow>
       </template>
@@ -289,24 +320,24 @@ const getFlowTabClasses = (flowKey: string, index: number): string => {
           :containerClass="getStaticBorderClass()"
           :environment
           :modelValue="scheme.name"
-          placeholder="api-key"
+          :placeholder="t('apiClient.labels.apiKeyPlaceholder')"
           @update:modelValue="
             (v) => handleApiKeySecuritySchemeUpdate({ name: v }, name)
           ">
-          Name
+          {{ t('apiClient.labels.name') }}
         </RequestAuthDataTableInput>
       </DataTableRow>
       <DataTableRow>
         <RequestAuthDataTableInput
           :environment
           :modelValue="scheme['x-scalar-secret-token']"
-          placeholder="QUxMIFlPVVIgQkFTRSBBUkUgQkVMT05HIFRPIFVT"
+          :placeholder="'QUxMIFlPVVIgQkFTRSBBUkUgQkVMT05HIFRPIFVT'"
           type="password"
           @update:modelValue="
             (v) =>
               handleApiKeySecretsUpdate({ 'x-scalar-secret-token': v }, name)
           ">
-          Value
+          {{ t('apiClient.labels.value') }}
         </RequestAuthDataTableInput>
       </DataTableRow>
     </template>

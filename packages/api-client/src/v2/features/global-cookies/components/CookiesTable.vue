@@ -7,6 +7,7 @@ import type {
 } from '@scalar/workspace-store/events'
 import type { XScalarCookie } from '@scalar/workspace-store/schemas/extensions/general/x-scalar-cookies'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { CodeInput } from '@/v2/components/code-input'
 import {
@@ -23,6 +24,8 @@ const { cookies, eventBus, collectionType } = defineProps<
     eventBus: WorkspaceEventBus
   } & CollectionType
 >()
+
+const { t } = useI18n()
 
 /** Column widths: Enabled checkbox, Name, Value, Domain, Actions (delete button) */
 const COLUMNS = ['32px', '1fr', '1fr', '1fr', '36px']
@@ -113,8 +116,8 @@ const handleCookieDelete = (index: number): void =>
     <!-- Accessibility header row -->
     <DataTableRow class="sr-only !block">
       <DataTableHeader>Enabled</DataTableHeader>
-      <DataTableHeader>Name</DataTableHeader>
-      <DataTableHeader>Value</DataTableHeader>
+      <DataTableHeader>{{ t('apiClient.table.key') }}</DataTableHeader>
+      <DataTableHeader>{{ t('apiClient.table.value') }}</DataTableHeader>
       <DataTableHeader>Domain</DataTableHeader>
       <DataTableHeader>Actions</DataTableHeader>
     </DataTableRow>
@@ -142,7 +145,7 @@ const handleCookieDelete = (index: number): void =>
           :environment="undefined"
           lineWrapping
           :modelValue="row.name"
-          placeholder="Name"
+          :placeholder="t('apiClient.table.key')"
           @update:modelValue="
             (name) =>
               handleCookieChange(
@@ -164,7 +167,7 @@ const handleCookieDelete = (index: number): void =>
           :environment="undefined"
           lineWrapping
           :modelValue="row.value"
-          placeholder="Value"
+          :placeholder="t('apiClient.table.value')"
           withFakeData
           @update:modelValue="
             (value) =>

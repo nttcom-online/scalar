@@ -7,6 +7,7 @@ import type {
 } from '@scalar/workspace-store/events'
 import type { XScalarEnvironment } from '@scalar/workspace-store/schemas/extensions/document/x-scalar-environments'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { CodeInput } from '@/v2/components/code-input'
 import {
@@ -23,6 +24,8 @@ const { environment, environmentName, eventBus, collectionType } = defineProps<
     eventBus: WorkspaceEventBus
   } & CollectionType
 >()
+
+const { t } = useI18n()
 
 /** Column widths: Name, Value, Actions (delete button) */
 const COLUMNS = ['1fr', '1fr', '36px']
@@ -102,8 +105,8 @@ const handleVariableDelete = (index: number): void =>
     :columns="COLUMNS">
     <!-- Accessibility header row -->
     <DataTableRow class="sr-only !block">
-      <DataTableHeader>Name</DataTableHeader>
-      <DataTableHeader>Value</DataTableHeader>
+      <DataTableHeader>{{ t('apiClient.table.key') }}</DataTableHeader>
+      <DataTableHeader>{{ t('apiClient.table.value') }}</DataTableHeader>
       <DataTableHeader>Actions</DataTableHeader>
     </DataTableRow>
 
@@ -121,7 +124,7 @@ const handleVariableDelete = (index: number): void =>
           :environment="undefined"
           lineWrapping
           :modelValue="row.name"
-          placeholder="Name"
+          :placeholder="t('apiClient.table.key')"
           @update:modelValue="
             (name) => handleVariableChange(name, row.value, index)
           " />
@@ -135,7 +138,7 @@ const handleVariableDelete = (index: number): void =>
           :environment="undefined"
           lineWrapping
           :modelValue="row.value"
-          placeholder="Value"
+          :placeholder="t('apiClient.table.value')"
           @update:modelValue="
             (value) => handleVariableChange(row.name, value, index)
           " />
