@@ -9,6 +9,7 @@ import type { AvailableClient } from '@scalar/snippetz'
 import { type WorkspaceEventBus } from '@scalar/workspace-store/events'
 import type { XScalarSdkInstallation } from '@scalar/workspace-store/schemas/extensions/document/x-scalar-sdk-installation'
 import { computed, useId, useTemplateRef } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import {
   getFeaturedClients,
@@ -57,6 +58,8 @@ const tabIndex = computed(() =>
 )
 
 const wrapper = useTemplateRef('wrapper-ref')
+
+const { t } = useI18n()
 
 /** Emit the selected client event on tab */
 const onTabSelect = (i: number) => {
@@ -108,7 +111,7 @@ defineExpose({
       <div
         :id="headingId"
         class="client-libraries-heading">
-        Client Libraries
+        {{ t('apiReference.clientLibraries.title') }}
       </div>
 
       <!-- Tabs -->

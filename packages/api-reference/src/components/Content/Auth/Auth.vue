@@ -12,6 +12,7 @@ import type { XScalarEnvironment } from '@scalar/workspace-store/schemas/extensi
 import type { ServerObject } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import type { WorkspaceDocument } from '@scalar/workspace-store/schemas/workspace'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const { document, environment, eventBus, options, securitySchemes, authStore } =
   defineProps<{
@@ -50,6 +51,8 @@ const selectedSecurity = computed(() =>
     options.authentication?.preferredSecurityScheme,
   ),
 )
+
+const { t } = useI18n()
 </script>
 <template>
   <AuthSelector
@@ -68,5 +71,5 @@ const selectedSecurity = computed(() =>
     :securitySchemes
     :selectedSecurity
     :server="selectedServer"
-    title="Authentication" />
+    :title="t('apiReference.auth.title')" />
 </template>

@@ -13,6 +13,15 @@
       "navigate": "↑↓ 移動",
       "select": "⏎ 選択",
       "instructions": "上下キーで移動し、Enter で選択、入力で結果を絞り込みます"
+    },
+    "server": {
+      "title": "サーバー"
+    },
+    "auth": {
+      "title": "認証"
+    },
+    "clientLibraries": {
+      "title": "クライアントライブラリ"
     }
   }
 }

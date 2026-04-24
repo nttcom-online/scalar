@@ -26,12 +26,15 @@ import { ScalarMarkdown } from '@scalar/components'
 import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
 import type { ServerObject } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { useId } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import Selector from './Selector.vue'
 
 const { eventBus, servers, selectedServer } = defineProps<SelectorProps>()
 
 const id = useId()
+
+const { t } = useI18n()
 
 /** Update the selected server */
 const updateServer = (newServer: string) => {
@@ -65,7 +68,7 @@ const updateServerVariable = (key: string, value: string) => {
 <template>
   <label
     class="bg-b-2 flex h-8 items-center rounded-t-xl border-x border-t px-3 py-2.5 font-medium">
-    Server
+    {{ t('apiReference.server.title') }}
   </label>
   <div
     :id="id"
