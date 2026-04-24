@@ -2,12 +2,21 @@
 import { ScalarIconButton } from '@scalar/components'
 import { ScalarIconCopy, ScalarIconInfo } from '@scalar/icons'
 import { useClipboard } from '@scalar/use-hooks/useClipboard'
+import { useI18n } from 'vue-i18n'
 
 import ApiReferenceToolbarPopover from './ApiReferenceToolbarPopover.vue'
 
 const CONFIG_SETTING = 'showDeveloperTools: "never"'
 
-const { copyToClipboard } = useClipboard()
+const { t } = useI18n()
+const { copyToClipboard } = useClipboard({
+  localeNotify: (type) =>
+    t(
+      type === 'copied'
+        ? 'apiReference.notifications.copied'
+        : 'apiReference.notifications.copyFailed',
+    ),
+})
 </script>
 <template>
   <ApiReferenceToolbarPopover

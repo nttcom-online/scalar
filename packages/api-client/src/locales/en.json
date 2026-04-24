@@ -20,6 +20,10 @@
     "sendRequest": {
       "label": "Send Request"
     },
+    "notifications": {
+      "copied": "Copied to the clipboard",
+      "copyFailed": "Failed to copy to clipboard"
+    },
     "getStarted": "Get Started",
     "newRequest": "New Request"
   }

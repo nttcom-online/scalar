@@ -20,6 +20,10 @@
     "sendRequest": {
       "label": "リクエストを送信"
     },
+    "notifications": {
+      "copied": "クリップボードにコピーしました",
+      "copyFailed": "クリップボードへのコピーに失敗しました"
+    },
     "getStarted": "はじめに",
     "newRequest": "新しいリクエスト"
   }

@@ -36,7 +36,6 @@ const { responses } = defineProps<{
 }>()
 
 const id = useId()
-const { copyToClipboard } = useClipboard()
 
 // Bring the status codes in the right order.
 const orderedStatusCodes = computed<string[]>(() =>
@@ -122,6 +121,14 @@ const changeTab = (index: number) => {
 const showSchema = ref(false)
 
 const { t } = useI18n()
+const { copyToClipboard } = useClipboard({
+  localeNotify: (type) =>
+    t(
+      type === 'copied'
+        ? 'apiReference.notifications.copied'
+        : 'apiReference.notifications.copyFailed',
+    ),
+})
 </script>
 <template>
   <ScalarCard

@@ -51,6 +51,7 @@ import {
   useTemplateRef,
   watch,
 } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import {
   AgentScalarButton,
@@ -109,7 +110,15 @@ defineSlots<{
   footer?(): { breadcrumb: string }
 }>()
 
-const { copyToClipboard } = useClipboard()
+const { t } = useI18n()
+const { copyToClipboard } = useClipboard({
+  localeNotify: (type) =>
+    t(
+      type === 'copied'
+        ? 'apiReference.notifications.copied'
+        : 'apiReference.notifications.copyFailed',
+    ),
+})
 
 /**
  * Used to inject the environment into built packages

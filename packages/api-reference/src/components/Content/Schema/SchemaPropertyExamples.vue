@@ -3,6 +3,7 @@ import { ScalarIcon } from '@scalar/components'
 import { isDefined } from '@scalar/helpers/array/is-defined'
 import { useClipboard } from '@scalar/use-hooks/useClipboard'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { formatExample } from './helpers/format-example'
 
@@ -11,7 +12,15 @@ const { examples, example } = defineProps<{
   example?: unknown
 }>()
 
-const { copyToClipboard } = useClipboard()
+const { t } = useI18n()
+const { copyToClipboard } = useClipboard({
+  localeNotify: (type) =>
+    t(
+      type === 'copied'
+        ? 'apiReference.notifications.copied'
+        : 'apiReference.notifications.copyFailed',
+    ),
+})
 
 const hasSingleExample = computed(() => isDefined(example))
 

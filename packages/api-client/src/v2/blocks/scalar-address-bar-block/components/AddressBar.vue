@@ -92,6 +92,14 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { copyToClipboard } = useClipboard({
+  localeNotify: (type) =>
+    t(
+      type === 'copied'
+        ? 'apiClient.notifications.copied'
+        : 'apiClient.notifications.copyFailed',
+    ),
+})
 
 const id = useId()
 const { percentage, startLoading, stopLoading, isLoading } =
@@ -319,7 +327,7 @@ onBeforeUnmount(() => {
   stopLoading()
 })
 
-const { copyToClipboard } = useClipboard()
+// const { copyToClipboard } = useClipboard() // replaced above with localized notifier
 
 /** Copy the resolved URL with the environment variables to the clipboard */
 const copyUrl = async () => {

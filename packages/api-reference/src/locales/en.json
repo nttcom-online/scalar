@@ -39,6 +39,10 @@
     "showSchema": {
       "label": "Show Schema",
       "details": "Show Schema Details"
+    },
+    "notifications": {
+      "copied": "Copied to the clipboard",
+      "copyFailed": "Failed to copy to clipboard"
     }
   }
 }

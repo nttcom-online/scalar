@@ -18,6 +18,7 @@ import type {
   ServerObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { computed, provide, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { Anchor } from '@/components/Anchor'
 import { Badge } from '@/components/Badge'
@@ -94,7 +95,15 @@ const requestBodyCompositionSelectionKey = computed(() =>
 
 provide(REQUEST_BODY_COMPOSITION_INDEX_SYMBOL, requestBodyCompositionSelection)
 
-const { copyToClipboard } = useClipboard()
+const { t } = useI18n()
+const { copyToClipboard } = useClipboard({
+  localeNotify: (type) =>
+    t(
+      type === 'copied'
+        ? 'apiReference.notifications.copied'
+        : 'apiReference.notifications.copyFailed',
+    ),
+})
 </script>
 <template>
   <SectionAccordion
@@ -203,9 +212,9 @@ const { copyToClipboard } = useClipboard()
         </div>
         <div class="operation-details-card-item">
           <OperationParameters
+            v-model:selectedContentType="selectedRequestBodyContentType"
             :eventBus
             :options
-            v-model:selectedContentType="selectedRequestBodyContentType"
             :parameters="operation.parameters"
             :requestBody="getResolvedRef(operation.requestBody)" />
         </div>

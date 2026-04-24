@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ScalarIcon } from '@scalar/components'
 import { useClipboard } from '@scalar/use-hooks/useClipboard'
+import { useI18n } from 'vue-i18n'
 
 import { formatValue } from './helpers/format-value'
 
@@ -8,7 +9,15 @@ defineProps<{
   value?: unknown
 }>()
 
-const { copyToClipboard } = useClipboard()
+const { t } = useI18n()
+const { copyToClipboard } = useClipboard({
+  localeNotify: (type) =>
+    t(
+      type === 'copied'
+        ? 'apiReference.notifications.copied'
+        : 'apiReference.notifications.copyFailed',
+    ),
+})
 </script>
 <template>
   <template v-if="value !== undefined">

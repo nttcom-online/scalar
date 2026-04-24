@@ -7,6 +7,7 @@ import { useClipboard } from '@scalar/use-hooks/useClipboard'
 import { useToasts } from '@scalar/use-toasts'
 import type { WorkspaceStore } from '@scalar/workspace-store/client'
 import { nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { uploadTempDocument } from '@/helpers/upload-temp-document'
 
@@ -20,7 +21,15 @@ const props = defineProps<{
   workspace: WorkspaceStore
 }>()
 
-const { copyToClipboard } = useClipboard()
+const { t } = useI18n()
+const { copyToClipboard } = useClipboard({
+  localeNotify: (type) =>
+    t(
+      type === 'copied'
+        ? 'apiReference.notifications.copied'
+        : 'apiReference.notifications.copyFailed',
+    ),
+})
 
 const { toast } = useToasts()
 
