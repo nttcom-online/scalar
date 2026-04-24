@@ -7,6 +7,7 @@ import {
 import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
 import type { TraversedTag } from '@scalar/workspace-store/schemas/navigation'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import ScreenReader from '@/components/ScreenReader.vue'
 
@@ -24,6 +25,8 @@ const operationsAndWebhooks = computed(() => {
     ) ?? []
   )
 })
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -31,7 +34,11 @@ const operationsAndWebhooks = computed(() => {
     <ScalarCard class="endpoints-card">
       <ScalarCardHeader muted>
         <ScreenReader>{{ tag.title }}</ScreenReader>
-        {{ tag.isWebhooks ? 'Webhooks' : 'Operations' }}
+        {{
+          tag.isWebhooks
+            ? t('apiReference.webhooks.title')
+            : t('apiReference.operations.title')
+        }}
       </ScalarCardHeader>
       <ScalarCardSection class="custom-scroll max-h-[60vh]">
         <ul

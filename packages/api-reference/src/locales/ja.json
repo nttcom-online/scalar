@@ -22,6 +22,12 @@
     },
     "clientLibraries": {
       "title": "クライアントライブラリ"
+    },
+    "operations": {
+      "title": "操作"
+    },
+    "webhooks": {
+      "title": "Webhooks"
     }
   }
 }
