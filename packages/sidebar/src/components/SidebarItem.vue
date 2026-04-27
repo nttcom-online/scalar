@@ -294,7 +294,11 @@ const children = computed(() =>
             name="icon" />
         </template>
       </SidebarItem>
-      <template v-if="slots.empty && (item.children?.length ?? 0) === 0">
+      <template
+        v-if="
+          slots.empty &&
+          ('children' in item ? (item.children?.length ?? 0) === 0 : false)
+        ">
         <slot
           :item
           name="empty" />

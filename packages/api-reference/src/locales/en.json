@@ -43,6 +43,12 @@
     "showMore": {
       "label": "Show More"
     },
+    "introduction": {
+      "label": "Introduction"
+    },
+    "models": {
+      "label": "Models"
+    },
     "notifications": {
       "copied": "Copied to the clipboard",
       "copyFailed": "Failed to copy to clipboard"

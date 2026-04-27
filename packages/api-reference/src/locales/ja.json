@@ -30,7 +30,7 @@
       "title": "Webhooks"
     },
     "askAgent": {
-      "label": "AIエージェントに質問",
+      "label": "AIに質問",
       "placeholder": "AIエージェントに質問"
     },
     "testRequest": {
@@ -42,6 +42,12 @@
     },
     "showMore": {
       "label": "もっと見る"
+    },
+    "introduction": {
+      "label": "はじめに"
+    },
+    "models": {
+      "label": "モデル"
     },
     "notifications": {
       "copied": "クリップボードにコピーしました",

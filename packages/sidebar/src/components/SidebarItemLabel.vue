@@ -24,6 +24,6 @@ const { item } = defineProps<{
     :text="
       operationTitleSource === 'path' && 'path' in item
         ? (item.path as string)
-        : (item.title as string)
+        : (item.displayTitle ?? (item.title as string))
     " />
 </template>

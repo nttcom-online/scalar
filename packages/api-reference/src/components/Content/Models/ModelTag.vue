@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
+import { useI18n } from 'vue-i18n'
 
 import { Section, SectionHeader } from '@/components/Section'
 import SectionContainer from '@/components/Section/SectionContainer.vue'
@@ -13,6 +14,7 @@ defineProps<{
   eventBus: WorkspaceEventBus
   layout: 'classic' | 'modern'
 }>()
+const { t } = useI18n()
 </script>
 <template>
   <!-- Modern Layout Model Container -->
@@ -21,10 +23,12 @@ defineProps<{
     id="model">
     <Section
       :id="id"
-      aria-label="Models"
+      :aria-label="t('apiReference.models.label')"
       @intersecting="() => eventBus?.emit('intersecting:nav-item', { id })">
       <SectionHeader>
-        <SectionHeaderTag :level="2"> Models </SectionHeaderTag>
+        <SectionHeaderTag :level="2">{{
+          t('apiReference.models.label')
+        }}</SectionHeaderTag>
       </SectionHeader>
       <template v-if="!isCollapsed">
         <slot />
@@ -41,14 +45,16 @@ defineProps<{
   <!-- Classic Layout Model Container -->
   <SectionContainerAccordion
     v-else
-    aria-label="Models"
+    :aria-label="t('apiReference.models.label')"
     class="pb-12"
     :modelValue="!isCollapsed"
     @update:modelValue="
       () => eventBus?.emit('toggle:nav-item', { id, open: isCollapsed })
     ">
     <template #title>
-      <SectionHeader :level="2">Models</SectionHeader>
+      <SectionHeader :level="2">{{
+        t('apiReference.models.label')
+      }}</SectionHeader>
     </template>
     <slot />
   </SectionContainerAccordion>

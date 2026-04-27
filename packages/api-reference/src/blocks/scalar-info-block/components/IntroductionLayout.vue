@@ -5,6 +5,7 @@ import type {
   ExternalDocumentationObject,
   InfoObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
+import { useI18n } from 'vue-i18n'
 
 import {
   Section,
@@ -32,6 +33,7 @@ defineProps<{
   headingSlugGenerator: (heading: Heading) => string
   eventBus: WorkspaceEventBus | null
 }>()
+const { t } = useI18n()
 </script>
 
 <template>
@@ -39,7 +41,7 @@ defineProps<{
     <!-- If the #after slot is used, we need to add a gap to the section. -->
     <Section
       :id="id"
-      aria-label="Introduction"
+      :aria-label="t('apiReference.introduction.label')"
       class="introduction-section z-1 gap-12"
       @intersecting="
         () => id && eventBus?.emit('intersecting:nav-item', { id })

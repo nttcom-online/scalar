@@ -342,7 +342,17 @@ const itemsFromWorkspace = computed<TraversedEntry[]>(() => {
       description: document.info.description,
       name: document.info.title ?? slug,
       title: document.info.title ?? slug,
-      children: document?.['x-scalar-navigation']?.children ?? [],
+      children: (document?.['x-scalar-navigation']?.children ?? []).map(
+        (c: any) => {
+          if (c.type === 'text' && c.title === 'Introduction') {
+            return { ...c, displayTitle: t('apiReference.introduction.label') }
+          }
+          if (c.type === 'models') {
+            return { ...c, displayTitle: t('apiReference.models.label') }
+          }
+          return c
+        },
+      ),
     }),
   )
 })
