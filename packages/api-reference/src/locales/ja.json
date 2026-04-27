@@ -40,6 +40,9 @@
       "label": "スキーマを表示",
       "details": "スキーマの詳細を表示"
     },
+    "showMore": {
+      "label": "もっと見る"
+    },
     "notifications": {
       "copied": "クリップボードにコピーしました",
       "copyFailed": "クリップボードへのコピーに失敗しました"

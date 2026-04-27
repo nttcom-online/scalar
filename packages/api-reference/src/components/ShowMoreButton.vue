@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { ScalarIconCaretDown } from '@scalar/icons'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 </script>
 
 <template>
   <button
     class="show-more"
     type="button">
-    Show More
+    {{ t('apiReference.showMore.label') }}
     <ScalarIconCaretDown
       class="text-c-2 mt-0.25 size-3"
       weight="bold" />

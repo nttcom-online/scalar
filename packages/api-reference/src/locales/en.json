@@ -40,6 +40,9 @@
       "label": "Show Schema",
       "details": "Show Schema Details"
     },
+    "showMore": {
+      "label": "Show More"
+    },
     "notifications": {
       "copied": "Copied to the clipboard",
       "copyFailed": "Failed to copy to clipboard"
