@@ -29,6 +29,7 @@ import { SectionAccordion } from '@/components/Section'
 import { ExampleResponses } from '@/features/example-responses'
 import { ExternalDocs } from '@/features/external-docs'
 import Callbacks from '@/features/Operation/components/callbacks/Callbacks.vue'
+import OperationMetadata from '@/features/Operation/components/OperationMetadata.vue'
 import OperationParameters from '@/features/Operation/components/OperationParameters.vue'
 import OperationResponses from '@/features/Operation/components/OperationResponses.vue'
 import {
@@ -209,6 +210,9 @@ const { copyToClipboard } = useClipboard({
           v-if="Object.keys(operationExtensions).length > 0"
           class="operation-details-card-item">
           <SpecificationExtension :value="operationExtensions" />
+        </div>
+        <div class="operation-details-card-item">
+          <OperationMetadata :operation="operation" />
         </div>
         <div class="operation-details-card-item">
           <OperationParameters

@@ -26,6 +26,7 @@ import AskAgentButton from '@/features/ask-agent-button/AskAgentButton.vue'
 import { ExampleResponses } from '@/features/example-responses'
 import { ExternalDocs } from '@/features/external-docs'
 import Callbacks from '@/features/Operation/components/callbacks/Callbacks.vue'
+import OperationMetadata from '@/features/Operation/components/OperationMetadata.vue'
 import OperationParameters from '@/features/Operation/components/OperationParameters.vue'
 import OperationResponses from '@/features/Operation/components/OperationResponses.vue'
 import {
@@ -163,11 +164,12 @@ provide(REQUEST_BODY_COMPOSITION_INDEX_SYMBOL, requestBodyCompositionSelection)
               :value="operation.description"
               withAnchors
               withImages />
+            <OperationMetadata :operation="operation" />
             <OperationParameters
+              v-model:selectedContentType="selectedRequestBodyContentType"
               :breadcrumb="[id]"
               :eventBus
               :options
-              v-model:selectedContentType="selectedRequestBodyContentType"
               :parameters="operation.parameters"
               :requestBody="getResolvedRef(operation.requestBody)" />
             <OperationResponses

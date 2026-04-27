@@ -52,6 +52,23 @@
     "download": {
       "label": "OpenAPI ドキュメントをダウンロード"
     },
+    "operationMeta": {
+      "scopes": "スコープ",
+      "requestRateLimit": "リクエストレート制限",
+      "requestRateLimits": "リクエストレート制限",
+      "timeBasedRateLimit": "時間ベースのレート制限",
+      "requests": "リクエスト",
+      "timeUnits": {
+        "second": "秒",
+        "seconds": "秒",
+        "minute": "分",
+        "minutes": "分",
+        "hour": "時間",
+        "hours": "時間",
+        "day": "日",
+        "days": "日"
+      }
+    },
     "notifications": {
       "copied": "クリップボードにコピーしました",
       "copyFailed": "クリップボードへのコピーに失敗しました"

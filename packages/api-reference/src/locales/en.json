@@ -52,6 +52,23 @@
     "download": {
       "label": "Download OpenAPI Document"
     },
+    "operationMeta": {
+      "scopes": "Scopes",
+      "requestRateLimit": "Request rate limit",
+      "requestRateLimits": "Request Rate Limits",
+      "timeBasedRateLimit": "Time-based rate limit",
+      "requests": "requests",
+      "timeUnits": {
+        "second": "second",
+        "seconds": "seconds",
+        "minute": "minute",
+        "minutes": "minutes",
+        "hour": "hour",
+        "hours": "hours",
+        "day": "day",
+        "days": "days"
+      }
+    },
     "notifications": {
       "copied": "Copied to the clipboard",
       "copyFailed": "Failed to copy to clipboard"

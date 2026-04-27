@@ -1,0 +1,81 @@
+export type OperationThrottlingInfo = {
+  type?: string
+  numberOfRequests?: number
+  numberOfTimeUnits?: number
+  timeUnit?: string
+}
+
+export type OperationRateLimitTimeUnitKey =
+  | 'apiReference.operationMeta.timeUnits.second'
+  | 'apiReference.operationMeta.timeUnits.seconds'
+  | 'apiReference.operationMeta.timeUnits.minute'
+  | 'apiReference.operationMeta.timeUnits.minutes'
+  | 'apiReference.operationMeta.timeUnits.hour'
+  | 'apiReference.operationMeta.timeUnits.hours'
+  | 'apiReference.operationMeta.timeUnits.day'
+  | 'apiReference.operationMeta.timeUnits.days'
+
+export type OperationRateLimitTitleKey =
+  | 'apiReference.operationMeta.requestRateLimit'
+  | 'apiReference.operationMeta.timeBasedRateLimit'
+
+type OperationMetadataExtensions = {
+  'x-scopes'?: unknown
+  'x-throttling-info'?: unknown
+}
+
+const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null
+
+export const getOperationScopes = (operation: OperationMetadataExtensions): string[] => {
+  if (!Array.isArray(operation['x-scopes'])) {
+    return []
+  }
+
+  return operation['x-scopes'].filter((scope): scope is string => typeof scope === 'string' && scope.trim().length > 0)
+}
+
+export const getOperationThrottlingInfo = (operation: OperationMetadataExtensions): OperationThrottlingInfo[] => {
+  if (!Array.isArray(operation['x-throttling-info'])) {
+    return []
+  }
+
+  return operation['x-throttling-info'].filter((item): item is OperationThrottlingInfo => isRecord(item))
+}
+
+export const getRateLimitTitleKey = (type: string | undefined): OperationRateLimitTitleKey =>
+  type === 'time' ? 'apiReference.operationMeta.timeBasedRateLimit' : 'apiReference.operationMeta.requestRateLimit'
+
+export const getRateLimitTimeUnitKey = (
+  timeUnit: string | undefined,
+  numberOfTimeUnits: number,
+): OperationRateLimitTimeUnitKey => {
+  const isPlural = numberOfTimeUnits > 1
+
+  if (timeUnit === 's') {
+    return isPlural ? 'apiReference.operationMeta.timeUnits.seconds' : 'apiReference.operationMeta.timeUnits.second'
+  }
+
+  if (timeUnit === 'h') {
+    return isPlural ? 'apiReference.operationMeta.timeUnits.hours' : 'apiReference.operationMeta.timeUnits.hour'
+  }
+
+  if (timeUnit === 'd') {
+    return isPlural ? 'apiReference.operationMeta.timeUnits.days' : 'apiReference.operationMeta.timeUnits.day'
+  }
+
+  return isPlural ? 'apiReference.operationMeta.timeUnits.minutes' : 'apiReference.operationMeta.timeUnits.minute'
+}
+
+export const getRateLimitPeriodValue = (
+  rateLimit: OperationThrottlingInfo,
+): {
+  amount: number | null
+  unitKey: OperationRateLimitTimeUnitKey
+} => {
+  const numberOfTimeUnits = rateLimit.numberOfTimeUnits ?? 0
+
+  return {
+    amount: numberOfTimeUnits > 1 ? numberOfTimeUnits : null,
+    unitKey: getRateLimitTimeUnitKey(rateLimit.timeUnit, numberOfTimeUnits),
+  }
+}
