@@ -7,6 +7,7 @@ import type {
   RequestBodyObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { shouldIgnoreEntity } from '@/features/Operation/helpers/should-ignore-entity'
 import type { OperationProps } from '@/features/Operation/Operation.vue'
@@ -45,6 +46,7 @@ const splitParameters = computed(() =>
     >,
   ),
 )
+const { t } = useI18n()
 </script>
 <template>
   <!-- Path parameters-->
@@ -53,7 +55,7 @@ const splitParameters = computed(() =>
     :eventBus="eventBus"
     :options="options"
     :parameters="splitParameters['path']">
-    <template #title>Path Parameters</template>
+    <template #title>{{ t('apiClient.labels.pathParameters') }}</template>
   </ParameterList>
 
   <!-- Query parameters -->
@@ -62,7 +64,7 @@ const splitParameters = computed(() =>
     :eventBus="eventBus"
     :options="options"
     :parameters="splitParameters['query']">
-    <template #title>Query Parameters</template>
+    <template #title>{{ t('apiClient.labels.queryParameters') }}</template>
   </ParameterList>
 
   <!-- Headers -->
@@ -71,7 +73,7 @@ const splitParameters = computed(() =>
     :eventBus="eventBus"
     :options="options"
     :parameters="splitParameters['header']">
-    <template #title>Headers</template>
+    <template #title>{{ t('apiClient.labels.headers') }}</template>
   </ParameterList>
 
   <!-- Cookies -->
@@ -80,7 +82,7 @@ const splitParameters = computed(() =>
     :eventBus="eventBus"
     :options="options"
     :parameters="splitParameters['cookie']">
-    <template #title>Cookies</template>
+    <template #title>{{ t('apiClient.labels.cookies') }}</template>
   </ParameterList>
 
   <!-- Request body -->
@@ -91,6 +93,6 @@ const splitParameters = computed(() =>
     :eventBus="eventBus"
     :options="options"
     :requestBody="requestBody">
-    <template #title>Body</template>
+    <template #title>{{ t('apiClient.labels.requestBody') }}</template>
   </RequestBody>
 </template>

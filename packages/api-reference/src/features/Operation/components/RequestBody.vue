@@ -4,6 +4,7 @@ import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
 import { getResolvedRef } from '@scalar/workspace-store/helpers/get-resolved-ref'
 import type { RequestBodyObject } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { Schema } from '@/components/Content/Schema'
 import { isTypeObject } from '@/components/Content/Schema/helpers/is-type-object'
@@ -105,6 +106,7 @@ const partitionedSchema = computed(() => {
     },
   }
 })
+const { t } = useI18n()
 
 /**
  * We don't want to render the request body if its completely empty
@@ -123,12 +125,12 @@ const shouldRenderRequestBody = computed(
 <template>
   <div
     v-if="requestBody && shouldRenderRequestBody"
-    aria-label="Request Body"
+    :aria-label="t('apiClient.labels.requestBody')"
     class="request-body"
     role="group">
     <div class="request-body-header">
       <div class="request-body-title">
-        <slot name="title" />
+        <slot name="title">{{ t('apiClient.labels.requestBody') }}</slot>
         <span
           v-if="schemaModelName"
           class="text-c-2 text-xs leading-none font-normal"
@@ -140,7 +142,7 @@ const shouldRenderRequestBody = computed(
         <div
           v-if="requestBody.required"
           class="request-body-required">
-          required
+          {{ t('apiClient.labels.required') }}
         </div>
         <ContentTypeSelect
           v-model="selectedContentType"
@@ -162,7 +164,7 @@ const shouldRenderRequestBody = computed(
         compact
         :compositionPath="['requestBody']"
         :eventBus="eventBus"
-        name="Request Body"
+        :name="t('apiClient.labels.requestBody')"
         noncollapsible
         :options="{
           hideReadOnly: true,
@@ -178,7 +180,7 @@ const shouldRenderRequestBody = computed(
         compact
         :compositionPath="['requestBody']"
         :eventBus="eventBus"
-        name="Request Body"
+        :name="t('apiClient.labels.requestBody')"
         :options="{
           hideReadOnly: true,
           orderRequiredPropertiesFirst: options.orderRequiredPropertiesFirst,
@@ -198,7 +200,7 @@ const shouldRenderRequestBody = computed(
         :compositionPath="['requestBody']"
         :eventBus="eventBus"
         :hideReadOnly="true"
-        name="Request Body"
+        :name="t('apiClient.labels.requestBody')"
         noncollapsible
         :options="{
           hideReadOnly: true,
