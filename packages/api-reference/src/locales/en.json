@@ -44,5 +44,21 @@
       "copied": "Copied to the clipboard",
       "copyFailed": "Failed to copy to clipboard"
     }
+  },
+  "apiClient": {
+    "labels": {
+      "required": "Required",
+      "optional": "Optional",
+      "jwtBearer": "JWT Bearer token authentication",
+      "bearerToken": "Bearer Token",
+      "token": "Token",
+      "username": "Username",
+      "usernamePlaceholder": "janedoe",
+      "password": "Password",
+      "passwordPlaceholder": "********",
+      "apiKeyPlaceholder": "api-key",
+      "name": "Name",
+      "value": "Value"
+    }
   }
 }

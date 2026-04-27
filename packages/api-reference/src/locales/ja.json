@@ -44,5 +44,21 @@
       "copied": "クリップボードにコピーしました",
       "copyFailed": "クリップボードへのコピーに失敗しました"
     }
+  },
+  "apiClient": {
+    "labels": {
+      "required": "必須",
+      "optional": "任意",
+      "jwtBearer": "JWT Bearerトークン認証",
+      "bearerToken": "Bearerトークン",
+      "token": "トークン",
+      "username": "ユーザー名",
+      "usernamePlaceholder": "janedoe",
+      "password": "パスワード",
+      "passwordPlaceholder": "********",
+      "apiKeyPlaceholder": "api-key",
+      "name": "名前",
+      "value": "値"
+    }
   }
 }
