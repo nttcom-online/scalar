@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ApiReferenceConfiguration } from '@scalar/types/api-reference'
 import { type WorkspaceEventBus } from '@scalar/workspace-store/events'
+import { useI18n } from 'vue-i18n'
 
 import Badge from '@/components/Badge/Badge.vue'
 
@@ -20,6 +21,10 @@ const { eventBus, documentDownloadType, documentUrl } = defineProps<{
 const handleDownloadClick = (format: 'json' | 'yaml') => {
   eventBus.emit('ui:download:document', { format })
 }
+const { t } = useI18n()
+// DEBUG: log the effective documentDownloadType at runtime
+// (temporary; remove after verification)
+console.log('[DownloadLink] documentDownloadType=', documentDownloadType)
 </script>
 <template>
   <div
@@ -36,7 +41,7 @@ const handleDownloadClick = (format: 'json' | 'yaml') => {
       v-if="documentDownloadType === 'direct' && documentUrl"
       class="download-link download-button"
       :href="documentUrl">
-      <span> Download OpenAPI Document </span>
+      <span>{{ t('apiReference.download.label') }}</span>
     </a>
 
     <!-- JSON  -->
@@ -45,7 +50,7 @@ const handleDownloadClick = (format: 'json' | 'yaml') => {
       class="download-button"
       type="button"
       @click.prevent="() => handleDownloadClick('json')">
-      <span> Download OpenAPI Document </span>
+      <span>{{ t('apiReference.download.label') }}</span>
       <Badge class="extension hidden group-hover:flex">json</Badge>
     </button>
 
@@ -55,7 +60,7 @@ const handleDownloadClick = (format: 'json' | 'yaml') => {
       class="download-button"
       type="button"
       @click.prevent="() => handleDownloadClick('yaml')">
-      <span> Download OpenAPI Document </span>
+      <span>{{ t('apiReference.download.label') }}</span>
       <Badge class="extension hidden group-hover:flex">yaml</Badge>
     </button>
   </div>

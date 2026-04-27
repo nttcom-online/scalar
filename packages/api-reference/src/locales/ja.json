@@ -49,6 +49,9 @@
     "models": {
       "label": "モデル"
     },
+    "download": {
+      "label": "OpenAPI ドキュメントをダウンロード"
+    },
     "notifications": {
       "copied": "クリップボードにコピーしました",
       "copyFailed": "クリップボードへのコピーに失敗しました"

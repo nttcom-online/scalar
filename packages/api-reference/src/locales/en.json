@@ -49,6 +49,9 @@
     "models": {
       "label": "Models"
     },
+    "download": {
+      "label": "Download OpenAPI Document"
+    },
     "notifications": {
       "copied": "Copied to the clipboard",
       "copyFailed": "Failed to copy to clipboard"
