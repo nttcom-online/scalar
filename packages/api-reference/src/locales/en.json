@@ -71,6 +71,8 @@
       "responseHeaders": "Response Headers",
       "response": "Response",
       "body": "Body",
+      "readOnly": "read-only",
+      "writeOnly": "write-only",
       "bearerToken": "Bearer Token",
       "token": "Token",
       "username": "Username",

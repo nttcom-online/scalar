@@ -17,6 +17,8 @@ vi.mock('vue-i18n', () => ({
         'apiClient.labels.requestBody': 'Request Body',
         'apiClient.labels.body': 'Body',
         'apiClient.labels.required': 'Required',
+        'apiClient.labels.readOnly': 'read-only',
+        'apiClient.labels.writeOnly': 'write-only',
         'apiReference.notifications.copied': 'Copied to the clipboard',
         'apiReference.notifications.copyFailed': 'Failed to copy to clipboard',
       }

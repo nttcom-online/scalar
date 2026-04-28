@@ -12,6 +12,8 @@ vi.mock('vue-i18n', () => ({
     t: (key: string) => {
       const messages: Record<string, string> = {
         'apiClient.labels.required': 'Required',
+        'apiClient.labels.readOnly': 'read-only',
+        'apiClient.labels.writeOnly': 'write-only',
         'apiReference.notifications.copied': 'Copied to the clipboard',
         'apiReference.notifications.copyFailed': 'Failed to copy to clipboard',
       }

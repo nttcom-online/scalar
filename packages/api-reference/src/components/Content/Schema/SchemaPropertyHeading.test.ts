@@ -12,6 +12,14 @@ vi.mock('vue-i18n', () => ({
         return 'Required'
       }
 
+      if (key === 'apiClient.labels.readOnly') {
+        return 'read-only'
+      }
+
+      if (key === 'apiClient.labels.writeOnly') {
+        return 'write-only'
+      }
+
       if (key === 'apiReference.notifications.copied') {
         return 'Copied to the clipboard'
       }

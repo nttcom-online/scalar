@@ -328,12 +328,12 @@ const exampleValue = computed(() => {
     <div
       v-if="props.value?.writeOnly"
       class="property-write-only">
-      write-only
+      {{ t('apiClient.labels.writeOnly') }}
     </div>
     <div
       v-else-if="props.value?.readOnly"
       class="property-read-only">
-      read-only
+      {{ t('apiClient.labels.readOnly') }}
     </div>
     <div
       v-if="props.required"

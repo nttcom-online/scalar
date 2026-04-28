@@ -71,6 +71,8 @@
       "responseHeaders": "レスポンスヘッダー",
       "response": "レスポンス",
       "body": "ボディ",
+      "readOnly": "読み取り専用",
+      "writeOnly": "書き込み専用",
       "bearerToken": "Bearerトークン",
       "token": "トークン",
       "username": "ユーザー名",
