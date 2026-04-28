@@ -1,9 +1,29 @@
 import { coerceValue } from '@scalar/workspace-store/schemas/typebox-coerce'
 import { SchemaObjectSchema } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import SchemaPropertyHeading from './SchemaPropertyHeading.vue'
+
+vi.mock('vue-i18n', () => ({
+  useI18n: () => ({
+    t: (key: string) => {
+      if (key === 'apiClient.labels.required') {
+        return 'Required'
+      }
+
+      if (key === 'apiReference.notifications.copied') {
+        return 'Copied to the clipboard'
+      }
+
+      if (key === 'apiReference.notifications.copyFailed') {
+        return 'Failed to copy to clipboard'
+      }
+
+      return key
+    },
+  }),
+}))
 
 describe('SchemaPropertyHeading', () => {
   it('renders falsy default values', () => {
@@ -31,7 +51,7 @@ describe('SchemaPropertyHeading', () => {
 
     const requiredElement = wrapper.find('.property-required')
     expect(requiredElement.exists()).toBe(true)
-    expect(requiredElement.text()).toBe('required')
+    expect(requiredElement.text()).toBe('Required')
   })
 
   it('renders property type and format', () => {

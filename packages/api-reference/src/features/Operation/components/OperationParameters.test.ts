@@ -1,10 +1,30 @@
 import { coerceValue } from '@scalar/workspace-store/schemas/typebox-coerce'
 import { SchemaObjectSchema } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 import OperationParameters from './OperationParameters.vue'
+
+vi.mock('vue-i18n', () => ({
+  useI18n: () => ({
+    t: (key: string) => {
+      const messages: Record<string, string> = {
+        'apiClient.labels.pathParameters': 'Path Parameters',
+        'apiClient.labels.queryParameters': 'Query Parameters',
+        'apiClient.labels.headers': 'Headers',
+        'apiClient.labels.cookies': 'Cookies',
+        'apiClient.labels.requestBody': 'Request Body',
+        'apiClient.labels.body': 'Body',
+        'apiClient.labels.required': 'Required',
+        'apiReference.notifications.copied': 'Copied to the clipboard',
+        'apiReference.notifications.copyFailed': 'Failed to copy to clipboard',
+      }
+
+      return messages[key] ?? key
+    },
+  }),
+}))
 
 describe('OperationParameters', () => {
   const defaultSchemaOptions = {
@@ -35,7 +55,7 @@ describe('OperationParameters', () => {
 
       expect(wrapper.text()).toContain('Path Parameters')
       expect(wrapper.text()).toContain('userId')
-      expect(wrapper.text()).toContain('required')
+      expect(wrapper.text()).toContain('Required')
     })
   })
 
@@ -86,7 +106,7 @@ describe('OperationParameters', () => {
 
       expect(wrapper.text()).toContain('Headers')
       expect(wrapper.text()).toContain('Authorization')
-      expect(wrapper.text()).toContain('required')
+      expect(wrapper.text()).toContain('Required')
     })
   })
 
@@ -114,7 +134,7 @@ describe('OperationParameters', () => {
 
       expect(wrapper.text()).toContain('Cookies')
       expect(wrapper.text()).toContain('debug')
-      expect(wrapper.text()).toContain('required')
+      expect(wrapper.text()).toContain('Required')
     })
 
     it('renders an optional cookie parameter', () => {

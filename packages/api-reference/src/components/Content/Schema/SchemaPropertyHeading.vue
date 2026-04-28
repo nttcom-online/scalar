@@ -8,6 +8,7 @@ import {
   isStringSchema,
 } from '@scalar/workspace-store/schemas/v3.1/strict/type-guards'
 import { computed, toRef } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { Badge } from '@/components/Badge'
 import ScreenReader from '@/components/ScreenReader.vue'
@@ -38,6 +39,8 @@ const props = withDefaults(
     hideModelNames: false,
   },
 )
+
+const { t } = useI18n()
 
 // Convert to reactive refs for composables
 const valueRef = toRef(props, 'value')
@@ -335,7 +338,7 @@ const exampleValue = computed(() => {
     <div
       v-if="props.required"
       class="property-required">
-      required
+      {{ t('apiClient.labels.required') }}
     </div>
     <SchemaPropertyDefault :value="props.value?.default" />
     <SchemaPropertyExamples
