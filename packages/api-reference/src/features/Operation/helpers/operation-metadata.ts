@@ -5,6 +5,17 @@ export type OperationThrottlingInfo = {
   timeUnit?: string
 }
 
+export type OperationVersionInfo = {
+  versionNumber?: number | string
+  latest?: boolean
+  operationId?: string
+}
+
+export type OperationVersionBadge = {
+  label: string
+  latest: boolean
+}
+
 export type OperationRateLimitTimeUnitKey =
   | 'apiReference.operationMeta.timeUnits.second'
   | 'apiReference.operationMeta.timeUnits.seconds'
@@ -20,26 +31,67 @@ export type OperationRateLimitTitleKey =
   | 'apiReference.operationMeta.timeBasedRateLimit'
 
 type OperationMetadataExtensions = {
+  operationId?: unknown
   'x-scopes'?: unknown
   'x-throttling-info'?: unknown
+  'x-versions'?: unknown
 }
 
 const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null
 
-export const getOperationScopes = (operation: OperationMetadataExtensions): string[] => {
-  if (!Array.isArray(operation['x-scopes'])) {
+const asOperationMetadataExtensions = (value: unknown): OperationMetadataExtensions => (isRecord(value) ? value : {})
+
+export const getOperationScopes = (operation: unknown): string[] => {
+  const metadata = asOperationMetadataExtensions(operation)
+
+  if (!Array.isArray(metadata['x-scopes'])) {
     return []
   }
 
-  return operation['x-scopes'].filter((scope): scope is string => typeof scope === 'string' && scope.trim().length > 0)
+  return metadata['x-scopes'].filter((scope): scope is string => typeof scope === 'string' && scope.trim().length > 0)
 }
 
-export const getOperationThrottlingInfo = (operation: OperationMetadataExtensions): OperationThrottlingInfo[] => {
-  if (!Array.isArray(operation['x-throttling-info'])) {
+export const getOperationThrottlingInfo = (operation: unknown): OperationThrottlingInfo[] => {
+  const metadata = asOperationMetadataExtensions(operation)
+
+  if (!Array.isArray(metadata['x-throttling-info'])) {
     return []
   }
 
-  return operation['x-throttling-info'].filter((item): item is OperationThrottlingInfo => isRecord(item))
+  return metadata['x-throttling-info'].filter((item): item is OperationThrottlingInfo => isRecord(item))
+}
+
+export const getOperationVersionBadges = (operation: unknown): OperationVersionBadge[] => {
+  const metadata = asOperationMetadataExtensions(operation)
+  const currentOperationId =
+    typeof metadata.operationId === 'string' && metadata.operationId.trim().length > 0 ? metadata.operationId : null
+
+  if (!currentOperationId || !Array.isArray(metadata['x-versions'])) {
+    return []
+  }
+
+  return metadata['x-versions']
+    .filter((item): item is OperationVersionInfo => isRecord(item))
+    .filter((item) => item.operationId === currentOperationId)
+    .map((item) => {
+      const version = item.versionNumber
+
+      if (typeof version !== 'number' && typeof version !== 'string') {
+        return null
+      }
+
+      const normalizedVersion = String(version).trim()
+
+      if (!normalizedVersion.length) {
+        return null
+      }
+
+      return {
+        label: `v${normalizedVersion}`,
+        latest: item.latest === true,
+      }
+    })
+    .filter((item): item is OperationVersionBadge => item !== null)
 }
 
 export const getRateLimitTitleKey = (type: string | undefined): OperationRateLimitTitleKey =>

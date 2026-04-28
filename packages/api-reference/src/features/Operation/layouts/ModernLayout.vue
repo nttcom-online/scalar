@@ -9,6 +9,7 @@ import type {
   ServerObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { computed, provide, ref, useId } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { Anchor } from '@/components/Anchor'
 import { Badge } from '@/components/Badge'
@@ -29,6 +30,7 @@ import Callbacks from '@/features/Operation/components/callbacks/Callbacks.vue'
 import OperationMetadata from '@/features/Operation/components/OperationMetadata.vue'
 import OperationParameters from '@/features/Operation/components/OperationParameters.vue'
 import OperationResponses from '@/features/Operation/components/OperationResponses.vue'
+import { getOperationVersionBadges } from '@/features/Operation/helpers/operation-metadata'
 import {
   getOperationStability,
   getOperationStabilityColor,
@@ -75,6 +77,8 @@ const {
 >()
 
 const operationTitle = computed(() => operation.summary || path || '')
+const versionBadges = computed(() => getOperationVersionBadges(operation))
+const { t } = useI18n()
 
 const labelId = useId()
 
@@ -147,7 +151,22 @@ provide(REQUEST_BODY_COMPOSITION_INDEX_SYMBOL, requestBodyCompositionSelection)
             <SectionHeaderTag
               :id="labelId"
               :level="3">
-              {{ operationTitle }}
+              <span class="inline-flex flex-wrap items-center gap-2">
+                <span>{{ operationTitle }}</span>
+                <span
+                  v-for="versionBadge in versionBadges"
+                  :key="versionBadge.label"
+                  class="inline-flex items-center gap-2">
+                  <Badge class="font-code">
+                    {{ versionBadge.label }}
+                  </Badge>
+                  <Badge
+                    v-if="versionBadge.latest"
+                    class="text-green">
+                    {{ t('apiReference.operationMeta.latest') }}
+                  </Badge>
+                </span>
+              </span>
             </SectionHeaderTag>
           </Anchor>
         </SectionHeader>

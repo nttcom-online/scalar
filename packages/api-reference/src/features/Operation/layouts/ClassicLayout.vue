@@ -32,6 +32,7 @@ import Callbacks from '@/features/Operation/components/callbacks/Callbacks.vue'
 import OperationMetadata from '@/features/Operation/components/OperationMetadata.vue'
 import OperationParameters from '@/features/Operation/components/OperationParameters.vue'
 import OperationResponses from '@/features/Operation/components/OperationResponses.vue'
+import { getOperationVersionBadges } from '@/features/Operation/helpers/operation-metadata'
 import {
   getOperationStability,
   getOperationStabilityColor,
@@ -74,6 +75,7 @@ const {
 
 const operationTitle = computed(() => operation.summary || path || '')
 const operationExtensions = computed(() => getXKeysFromObject(operation))
+const versionBadges = computed(() => getOperationVersionBadges(operation))
 
 /** Track the currently selected example for passing to the modal */
 const selectedExampleKey = ref<string>('')
@@ -135,6 +137,20 @@ const { copyToClipboard } = useClipboard({
               <div class="endpoint-label-name">
                 {{ operationTitle }}
               </div>
+              <Badge
+                v-for="versionBadge in versionBadges"
+                :key="versionBadge.label"
+                class="font-code">
+                {{ versionBadge.label }}
+              </Badge>
+              <Badge
+                v-for="versionBadge in versionBadges.filter(
+                  (badge) => badge.latest,
+                )"
+                :key="`${versionBadge.label}-latest`"
+                class="text-green">
+                {{ t('apiReference.operationMeta.latest') }}
+              </Badge>
               <!-- Stability badge -->
               <Badge
                 v-if="getOperationStability(operation)"

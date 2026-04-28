@@ -53,6 +53,7 @@
       "label": "Download OpenAPI Document"
     },
     "operationMeta": {
+      "latest": "Latest",
       "scopes": "Scopes",
       "requestRateLimit": "Request rate limit",
       "requestRateLimits": "Request Rate Limits",

@@ -102,4 +102,59 @@ describe('SidebarItemLabel', () => {
 
     expect(wrapper.text()).toBe('')
   })
+
+  it('renders neutral version badges and a highlighted latest badge', () => {
+    const item: Item = {
+      id: '1',
+      title: 'Get User Details',
+      type: 'operation',
+      ref: 'ref-1',
+      method: 'get',
+      path: '/users/{id}',
+      versionBadges: [
+        {
+          label: 'v3',
+          latest: true,
+          latestLabel: '最新',
+        },
+      ],
+    }
+
+    const wrapper = mount(SidebarItemLabel, {
+      props: {
+        item,
+      },
+    })
+
+    expect(wrapper.text()).toBe('Get User Detailsv3最新')
+    expect(wrapper.html()).toContain('sidebar-item-badge')
+    expect(wrapper.html()).toContain('sidebar-item-badge-latest')
+  })
+
+  it('renders version badges when using path titles', () => {
+    const item: Item = {
+      id: '1',
+      title: 'Get User Details',
+      type: 'operation',
+      ref: 'ref-1',
+      method: 'get',
+      path: '/users/{id}',
+      versionBadges: [
+        {
+          label: 'v1',
+          latest: false,
+          latestLabel: '最新',
+        },
+      ],
+    }
+
+    const wrapper = mount(SidebarItemLabel, {
+      props: {
+        item,
+        operationTitleSource: 'path',
+      },
+    })
+
+    expect(wrapper.text()).toBe('/users/{id}v1')
+  })
 })

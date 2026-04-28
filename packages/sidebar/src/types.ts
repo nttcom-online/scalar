@@ -1,5 +1,11 @@
 import type { TraversedEntry } from '@scalar/workspace-store/schemas/navigation'
 
+export type SidebarVersionBadge = {
+  label: string
+  latest: boolean
+  latestLabel?: string
+}
+
 /**
  * A local re-export of TraversedEntry used in the sidebar components
  */
@@ -9,6 +15,7 @@ import type { TraversedEntry } from '@scalar/workspace-store/schemas/navigation'
  */
 export type Item = TraversedEntry & {
   displayTitle?: string
+  versionBadges?: SidebarVersionBadge[]
 }
 
 export type Layout = 'client' | 'reference'

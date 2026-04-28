@@ -53,6 +53,7 @@
       "label": "OpenAPI ドキュメントをダウンロード"
     },
     "operationMeta": {
+      "latest": "最新",
       "scopes": "スコープ",
       "requestRateLimit": "リクエストレート制限",
       "requestRateLimits": "リクエストレート制限",

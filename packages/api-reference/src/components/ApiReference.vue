@@ -29,13 +29,16 @@ import { useColorMode } from '@scalar/use-hooks/useColorMode'
 import { ScalarToasts } from '@scalar/use-toasts'
 import { createWorkspaceStore } from '@scalar/workspace-store/client'
 import { createWorkspaceEventBus } from '@scalar/workspace-store/events'
+import { getResolvedRef } from '@scalar/workspace-store/helpers/get-resolved-ref'
 import {
   getActiveEnvironment,
   getServers,
 } from '@scalar/workspace-store/request-example'
 import type {
   TraversedEntry,
+  TraversedOperation,
   TraversedTag,
+  TraversedWebhook,
 } from '@scalar/workspace-store/schemas/navigation'
 import { useScrollLock } from '@vueuse/core'
 import diff from 'microdiff'
@@ -63,6 +66,7 @@ import Content from '@/components/Content/Content.vue'
 import MobileHeader from '@/components/MobileHeader.vue'
 import { DeveloperTools } from '@/features/developer-tools'
 import DocumentSelector from '@/features/multiple-documents/DocumentSelector.vue'
+import { getOperationVersionBadges } from '@/features/Operation/helpers/operation-metadata'
 import SearchButton from '@/features/Search/components/SearchButton.vue'
 import { getSystemModePreference } from '@/helpers/color-mode'
 import { downloadDocument } from '@/helpers/download'
@@ -111,6 +115,16 @@ defineSlots<{
 }>()
 
 const { t } = useI18n()
+
+type SidebarEntry = TraversedEntry & {
+  displayTitle?: string
+  versionBadges?: {
+    label: string
+    latest: boolean
+    latestLabel: string
+  }[]
+}
+
 const { copyToClipboard } = useClipboard({
   localeNotify: (type) =>
     t(
@@ -334,7 +348,56 @@ const { toggleColorMode, isDarkMode } = useColorMode({
  * Create top level sidebar entries for each document
  * This allows sharing a single sidebar state for across the workspace
  */
-const itemsFromWorkspace = computed<TraversedEntry[]>(() => {
+const getEntryOperation = (
+  document: (typeof workspaceStore.workspace.documents)[string],
+  entry: TraversedOperation | TraversedWebhook,
+) => {
+  const pathValue =
+    entry.type === 'webhook'
+      ? document.webhooks?.[entry.name]
+      : document.paths?.[entry.path]
+
+  return getResolvedRef(pathValue?.[entry.method])
+}
+
+const decorateSidebarEntry = (
+  entry: TraversedEntry,
+  document: (typeof workspaceStore.workspace.documents)[string],
+): SidebarEntry => {
+  const children =
+    'children' in entry && entry.children
+      ? entry.children.map((child) => decorateSidebarEntry(child, document))
+      : undefined
+
+  const baseEntry: SidebarEntry = {
+    ...entry,
+    ...(children ? { children } : {}),
+  }
+
+  if (entry.type === 'text' && entry.title === 'Introduction') {
+    return { ...baseEntry, displayTitle: t('apiReference.introduction.label') }
+  }
+
+  if (entry.type === 'models') {
+    return { ...baseEntry, displayTitle: t('apiReference.models.label') }
+  }
+
+  if (entry.type === 'operation' || entry.type === 'webhook') {
+    const operation = getEntryOperation(document, entry)
+    const versionBadges = getOperationVersionBadges(operation).map((badge) => ({
+      ...badge,
+      latestLabel: t('apiReference.operationMeta.latest'),
+    }))
+
+    if (versionBadges.length) {
+      return { ...baseEntry, versionBadges }
+    }
+  }
+
+  return baseEntry
+}
+
+const itemsFromWorkspace = computed<SidebarEntry[]>(() => {
   return Object.entries(workspaceStore.workspace.documents).map(
     ([slug, document]) => ({
       id: slug,
@@ -342,28 +405,20 @@ const itemsFromWorkspace = computed<TraversedEntry[]>(() => {
       description: document.info.description,
       name: document.info.title ?? slug,
       title: document.info.title ?? slug,
-      children: (document?.['x-scalar-navigation']?.children ?? []).map(
-        (c: any) => {
-          if (c.type === 'text' && c.title === 'Introduction') {
-            return { ...c, displayTitle: t('apiReference.introduction.label') }
-          }
-          if (c.type === 'models') {
-            return { ...c, displayTitle: t('apiReference.models.label') }
-          }
-          return c
-        },
+      children: (document?.['x-scalar-navigation']?.children ?? []).map((c) =>
+        decorateSidebarEntry(c, document),
       ),
     }),
   )
 })
 
 /** Initialize the sidebar */
-const sidebarState = createSidebarState<TraversedEntry>(itemsFromWorkspace, {
+const sidebarState = createSidebarState<SidebarEntry>(itemsFromWorkspace, {
   hooks: {},
 })
 
 /** Recursively set all children of the given items to open */
-const setChildrenOpen = (items: TraversedEntry[]): void => {
+const setChildrenOpen = (items: SidebarEntry[]): void => {
   items.forEach((item) => {
     if (item.type === 'tag' || item.type === 'models') {
       sidebarState.setExpanded(item.id, true)
@@ -375,7 +430,7 @@ const setChildrenOpen = (items: TraversedEntry[]): void => {
 }
 
 /** We get the sub items for the sidebar based on the configuration/document slug */
-const sidebarItems = computed<TraversedEntry[]>(() => {
+const sidebarItems = computed<SidebarEntry[]>(() => {
   const config = mergedConfig.value
 
   if (!config) {
