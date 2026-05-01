@@ -15,7 +15,7 @@ import type {
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { computed, ref } from 'vue'
 
-import { getRefName } from '@/components/Content/Schema/helpers/get-ref-name'
+import { getModelNameFromSchema } from '@/components/Content/Schema/helpers/schema-name'
 import SchemaProperty from '@/components/Content/Schema/SchemaProperty.vue'
 import type { OperationProps } from '@/features/Operation/Operation.vue'
 
@@ -81,8 +81,10 @@ const schemaModelName = computed(() => {
     return null
   }
 
-  if ('$ref' in raw) {
-    return getRefName(raw.$ref)
+  // Prefer title from the resolved schema (avoids showing hash-prefixed $ref keys)
+  const modelName = getModelNameFromSchema(raw)
+  if (modelName) {
+    return modelName
   }
 
   return null
