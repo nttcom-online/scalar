@@ -22,7 +22,16 @@ defineProps<{
     <div
       class="group flex items-center last:border-r-0 xl:border-r xl:first:ml-auto">
       <a
-        v-if="value?.email"
+        v-if="value?.url"
+        :class="variants({ link: true })"
+        :href="value.url">
+        <ScalarIconEnvelopeSimple
+          weight="bold"
+          class="size-3 text-current" />
+        <span class="ml-1 empty:hidden">{{ value.name || value.url }}</span>
+      </a>
+      <a
+        v-else-if="value?.email"
         :class="variants({ link: true })"
         :href="`mailto:${value?.email}`">
         <ScalarIconEnvelopeSimple
