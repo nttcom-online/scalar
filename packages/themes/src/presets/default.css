@@ -61,8 +61,9 @@
   --scalar-color-orange: #ff5800;
   --scalar-color-purple: #5203d1;
 
-  --scalar-link-color: var(--scalar-color-1);
-  --scalar-link-color-hover: var(--scalar-link-color);
+  --scalar-link-color: #0000EE;
+  --scalar-link-color-hover: #0000EE;
+  --scalar-link-color-visited: #551A8B;
 
   --scalar-button-1: rgba(0, 0, 0, 1);
   --scalar-button-1-hover: rgba(0, 0, 0, 0.8);
