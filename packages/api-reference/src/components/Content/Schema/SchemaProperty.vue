@@ -271,6 +271,7 @@ const isDiscriminatorProperty = computed(() =>
         :compact="compact"
         :compositionPath="arrayItemsCompositionPath"
         :eventBus="eventBus"
+        :hideDescription="!!displayDescription"
         :hideModelNames
         :level="level + 1"
         :name="name"

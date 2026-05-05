@@ -28,6 +28,7 @@ const {
   discriminator,
   breadcrumb,
   hideModelNames = false,
+  hideDescription = false,
   options,
   schemaContext,
   compositionPath,
@@ -47,6 +48,8 @@ const {
   additionalProperties?: boolean
   /** Hide model names in type display */
   hideModelNames?: boolean
+  /** Suppress the schema-level description (e.g. when the parent array already shows it) */
+  hideDescription?: boolean
   /** Discriminator object */
   discriminator?: DiscriminatorObject
   /** Breadcrumb for the schema */
@@ -71,6 +74,11 @@ const shouldShowToggle = computed((): boolean => {
 
 /** Gets the description to show for the schema */
 const schemaDescription = computed(() => {
+  // Suppress description when the parent (e.g. array container) already shows it
+  if (hideDescription) {
+    return null
+  }
+
   // For the request body we want to show the base description or the first allOf schema description
   if (schema?.allOf && schema.allOf.length > 0 && name === 'Request Body') {
     return schema.description || schema.allOf[0]?.description || null
