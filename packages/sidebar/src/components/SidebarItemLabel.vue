@@ -34,18 +34,23 @@ const versionBadges = computed(() => item.versionBadges ?? [])
     <span class="sidebar-item-label-text">
       <ScalarWrappingText :text="displayText" />
     </span>
-    <template
-      v-for="versionBadge in versionBadges"
-      :key="versionBadge.label">
-      <span class="sidebar-item-badge">
-        {{ versionBadge.label }}
-      </span>
+    <div
+      v-if="versionBadges.length"
+      class="sidebar-item-badges">
       <span
-        v-if="versionBadge.latest"
-        class="sidebar-item-badge sidebar-item-badge-latest">
-        {{ versionBadge.latestLabel ?? 'Latest' }}
+        v-for="versionBadge in versionBadges"
+        :key="versionBadge.label"
+        class="sidebar-item-badge-group">
+        <span class="sidebar-item-badge">
+          {{ versionBadge.label }}
+        </span>
+        <span
+          v-if="versionBadge.latest"
+          class="sidebar-item-badge sidebar-item-badge-latest">
+          {{ versionBadge.latestLabel ?? 'Latest' }}
+        </span>
       </span>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -60,6 +65,19 @@ const versionBadges = computed(() => item.versionBadges ?? [])
 
 .sidebar-item-label-text {
   min-width: 0;
+}
+
+.sidebar-item-badges {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.sidebar-item-badge-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .sidebar-item-badge {
