@@ -67,6 +67,22 @@ const composition = computed(() =>
 )
 
 /**
+ * When inside a discriminator context, filter out the parent discriminator
+ * schema from allOf before merging so we only show variant-specific properties.
+ */
+const INSIDE_DISCRIMINATOR_KEY = 'scalar-inside-discriminator'
+const insideDiscriminator = inject(INSIDE_DISCRIMINATOR_KEY, false)
+const schemaForAllOf = computed(() => {
+  if (!insideDiscriminator || !props.schema?.allOf) return props.schema
+  const filtered = props.schema.allOf.filter((entry: any) => {
+    const resolved = resolve.schema(entry)
+    return !resolved?.discriminator?.mapping
+  })
+  if (filtered.length === props.schema.allOf.length) return props.schema
+  return { ...props.schema, allOf: filtered } as SchemaObject
+})
+
+/**
  * Generate listbox options for the composition selector.
  * Each option represents a schema in the composition with a human-readable label.
  * Prefers schema title/name over structural type when present.
@@ -74,8 +90,11 @@ const composition = computed(() =>
 const listboxOptions = computed((): ScalarListboxOption[] =>
   composition.value.map((schema, index: number) => {
     const resolved = resolve.schema(schema.original!)
+    // Pass original (which may have $ref) so getModelNameFromSchema can use
+    // both title (from resolved schema) and $ref name as fallback
     const label =
-      (getModelNameFromSchema(resolved) ?? getSchemaType(resolved)) || 'Schema'
+      (getModelNameFromSchema(schema.original!) ?? getSchemaType(resolved)) ||
+      'Schema'
     return { id: String(index), label }
   }),
 )
@@ -188,7 +207,7 @@ if (
       :name="name"
       :noncollapsible="true"
       :options="options"
-      :schema="mergeAllOfSchemas(schema)"
+      :schema="mergeAllOfSchemas(schemaForAllOf)"
       :schemaContext="schemaContext" />
 
     <template v-else>

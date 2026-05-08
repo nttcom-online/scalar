@@ -6,13 +6,16 @@ import type {
   DiscriminatorObject,
   SchemaObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
-import { computed } from 'vue'
+import { computed, inject, provide } from 'vue'
 
 import type { SchemaOptions } from '@/components/Content/Schema/types'
 import ScreenReader from '@/components/ScreenReader.vue'
+import { DOCUMENT_SCHEMAS_SYMBOL } from '@/features/Operation/document-schemas'
 
 import { isEmptySchemaObject } from './helpers/is-empty-schema-object'
 import { isTypeObject } from './helpers/is-type-object'
+import type { CompositionKeyword } from './helpers/schema-composition'
+import SchemaComposition from './SchemaComposition.vue'
 import SchemaHeading from './SchemaHeading.vue'
 import SchemaObjectProperties from './SchemaObjectProperties.vue'
 import SchemaProperty from './SchemaProperty.vue'
@@ -113,6 +116,44 @@ const schemaDescription = computed(() => {
   return schema.description
 })
 
+/** Compositions synthesized from discriminator.mapping for object schemas without oneOf/anyOf */
+const INSIDE_DISCRIMINATOR_KEY = 'scalar-inside-discriminator'
+const insideDiscriminator = inject(INSIDE_DISCRIMINATOR_KEY, false)
+const documentSchemas = inject(DOCUMENT_SCHEMAS_SYMBOL, undefined)
+const discriminatorCompositions = computed(() => {
+  // Don't regenerate discriminator compositions when already inside a discriminator context
+  if (discriminator || insideDiscriminator) return []
+  if (!schema || !isTypeObject(schema)) return []
+  if (!schema.discriminator?.mapping || schema.oneOf || schema.anyOf) return []
+  if (!documentSchemas) return []
+
+  const mapping = schema.discriminator.mapping
+  const syntheticOneOf = Object.values(mapping)
+    .map((ref) => {
+      // Parse $ref path: "#/components/schemas/hash.Name" → "hash.Name"
+      const schemaName = ref.split('/').pop()
+      if (!schemaName) return undefined
+      return documentSchemas[schemaName]
+    })
+    .filter(Boolean)
+
+  if (syntheticOneOf.length === 0) return []
+
+  return [
+    {
+      composition: 'oneOf' as CompositionKeyword,
+      value: { ...schema, oneOf: syntheticOneOf } as unknown as SchemaObject,
+    },
+  ]
+})
+
+// When this Schema generates discriminator compositions, mark all descendants
+// so they won't generate their own (prevents infinite nesting)
+provide(
+  INSIDE_DISCRIMINATOR_KEY,
+  insideDiscriminator || discriminatorCompositions.value.length > 0,
+)
+
 // Prevent click action if noncollapsible
 const handleClick = (e: MouseEvent) => noncollapsible && e.stopPropagation()
 </script>
@@ -202,19 +243,38 @@ const handleClick = (e: MouseEvent) => noncollapsible && e.stopPropagation()
           as="ul"
           :static="!shouldShowToggle">
           <!-- Object properties -->
-          <SchemaObjectProperties
-            v-if="isTypeObject(schema)"
-            :breadcrumb
-            :compact
-            :compositionPath="compositionPath"
-            :discriminator
-            :eventBus="eventBus"
-            :hideHeading
-            :hideModelNames
-            :level="level + 1"
-            :options
-            :schema
-            :schemaContext="schemaContext" />
+          <template v-if="isTypeObject(schema)">
+            <SchemaObjectProperties
+              :breadcrumb
+              :compact
+              :compositionPath="compositionPath"
+              :discriminator
+              :eventBus="eventBus"
+              :hideHeading
+              :hideModelNames
+              :level="level + 1"
+              :options
+              :schema
+              :schemaContext="schemaContext" />
+            <!-- Discriminator mapping compositions for object schemas without oneOf/anyOf -->
+            <SchemaComposition
+              v-for="compositionData in discriminatorCompositions"
+              :key="compositionData.composition"
+              :breadcrumb
+              :compact
+              :composition="compositionData.composition"
+              :compositionPath="compositionPath"
+              :discriminator="schema?.discriminator"
+              :eventBus="eventBus"
+              :hideHeading
+              :hideModelNames
+              :level="level"
+              :name
+              :noncollapsible
+              :options
+              :schema="compositionData.value"
+              :schemaContext="schemaContext" />
+          </template>
           <!-- Not an object -->
           <template v-else>
             <SchemaProperty

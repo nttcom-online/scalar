@@ -22,7 +22,7 @@ export const getCompositionsToRender = (value: SchemaObject | undefined): Compos
     return []
   }
 
-  return compositions
+  const results = compositions
     .map((composition) => {
       // Check for array item-level composition first (more specific case)
       if (shouldRenderArrayItemComposition(value, composition) && isArraySchema(value) && value.items) {
@@ -49,4 +49,6 @@ export const getCompositionsToRender = (value: SchemaObject | undefined): Compos
       return null
     })
     .filter(isDefined)
+
+  return results
 }

@@ -60,10 +60,11 @@ import type {
   PathItemObject,
   ServerObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
-import { computed } from 'vue'
+import { computed, provide } from 'vue'
 
 import { filterSelectedSecurity } from '@/features/Operation/helpers/filter-selected-security'
 
+import { DOCUMENT_SCHEMAS_SYMBOL } from './document-schemas'
 import { getFirstServer } from './helpers/get-first-server'
 import ClassicLayout from './layouts/ClassicLayout.vue'
 import ModernLayout from './layouts/ModernLayout.vue'
@@ -82,6 +83,9 @@ const {
   securitySchemes,
   server,
 } = defineProps<OperationProps>()
+
+// Provide document schemas so deeply nested Schema components can resolve discriminator.mapping refs
+provide(DOCUMENT_SCHEMAS_SYMBOL, document?.components?.schemas)
 
 /**
  * Operation from the new workspace store, ensure we are de-reference
