@@ -30,6 +30,11 @@ export const getModelNameFromSchema = (
     // Fall back to the schema key when the referenced schema has no human-friendly name.
     const refName = getRefName(schemaOrRef.$ref)
     if (refName) {
+      // Strip hash-like prefix (e.g. "abc123def.TypeName" → "TypeName")
+      const dotIndex = refName.indexOf('.')
+      if (dotIndex > 0 && /^[0-9a-f]{16,}$/.test(refName.substring(0, dotIndex))) {
+        return refName.substring(dotIndex + 1)
+      }
       return refName
     }
   }
