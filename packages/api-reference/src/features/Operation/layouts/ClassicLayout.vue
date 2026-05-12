@@ -151,6 +151,12 @@ const { copyToClipboard } = useClipboard({
                 class="text-green">
                 {{ t('apiReference.operationMeta.latest') }}
               </Badge>
+              <!-- Early Access badge -->
+              <Badge
+                v-if="operationExtensions['x-is-early-access']"
+                class="early-access">
+                {{ t('apiReference.operationMeta.earlyAccess') }}
+              </Badge>
               <!-- Stability badge -->
               <Badge
                 v-if="getOperationStability(operation)"

@@ -166,6 +166,12 @@ provide(REQUEST_BODY_COMPOSITION_INDEX_SYMBOL, requestBodyCompositionSelection)
                     {{ t('apiReference.operationMeta.latest') }}
                   </Badge>
                 </span>
+                <!-- Early Access badge -->
+                <Badge
+                  v-if="operationExtensions['x-is-early-access']"
+                  class="early-access">
+                  {{ t('apiReference.operationMeta.earlyAccess') }}
+                </Badge>
               </span>
             </SectionHeaderTag>
           </Anchor>
