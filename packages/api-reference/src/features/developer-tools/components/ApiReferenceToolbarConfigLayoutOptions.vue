@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ScalarFormInputGroup, ScalarToggleInput } from '@scalar/components'
 import type { ApiReferenceConfiguration } from '@scalar/types/api-reference'
+import { useI18n } from 'vue-i18n'
 
 type LayoutOptions = {
   showSidebar?: boolean
@@ -41,13 +42,15 @@ function setValue(
     )
   }
 }
+
+const { t } = useI18n()
 </script>
 <template>
   <ScalarFormInputGroup>
     <ScalarToggleInput
       :modelValue="getValue('showSidebar', true)"
       @update:modelValue="(v) => setValue('showSidebar', !!v, true)">
-      Show Sidebar
+      {{ t('apiReference.devTools.showSidebar') }}
     </ScalarToggleInput>
     <ScalarToggleInput
       :modelValue="getValue('defaultOpenFirstTag', true)"
@@ -72,32 +75,32 @@ function setValue(
     <ScalarToggleInput
       :modelValue="getValue('hideClientButton')"
       @update:modelValue="(v) => setValue('hideClientButton', !!v)">
-      Hide Client Button
+      {{ t('apiReference.devTools.hideClientButton') }}
     </ScalarToggleInput>
     <ScalarToggleInput
       :modelValue="getValue('hideDarkModeToggle')"
       @update:modelValue="(v) => setValue('hideDarkModeToggle', !!v)">
-      Hide Dark Mode Toggle
+      {{ t('apiReference.devTools.hideDarkModeToggle') }}
     </ScalarToggleInput>
     <ScalarToggleInput
       :modelValue="getValue('hideModels')"
       @update:modelValue="(v) => setValue('hideModels', !!v)">
-      Hide Models
+      {{ t('apiReference.devTools.hideModels') }}
     </ScalarToggleInput>
     <ScalarToggleInput
       :modelValue="getValue('hideSearch')"
       @update:modelValue="(v) => setValue('hideSearch', !!v)">
-      Hide Search
+      {{ t('apiReference.devTools.hideSearch') }}
     </ScalarToggleInput>
     <ScalarToggleInput
       :modelValue="getValue('showOperationId')"
       @update:modelValue="(v) => setValue('showOperationId', !!v)">
-      Show Operation ID
+      {{ t('apiReference.devTools.showOperationId') }}
     </ScalarToggleInput>
     <ScalarToggleInput
       :modelValue="getValue('hideTestRequestButton')"
       @update:modelValue="(v) => setValue('hideTestRequestButton', !!v)">
-      Hide Test Request Button
+      {{ t('apiReference.devTools.hideTestRequestButton') }}
     </ScalarToggleInput>
   </ScalarFormInputGroup>
 </template>

@@ -9,6 +9,7 @@ import type {
   SchemaObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const { example, response } = defineProps<{
   response: MediaTypeObject | undefined
@@ -46,6 +47,8 @@ const prettyPrintedContent = computed(() => {
 
 const VIRTUALIZATION_THRESHOLD = 20_000
 
+const { t } = useI18n()
+
 // Virtualize the code block if it's too large
 const shouldVirtualize = computed(() => {
   if (prettyPrintedContent.value === undefined) {
@@ -72,7 +75,7 @@ const shouldVirtualize = computed(() => {
   <div
     v-else
     class="empty-state">
-    No Body
+    {{ t('apiReference.response.noBody') }}
   </div>
 </template>
 

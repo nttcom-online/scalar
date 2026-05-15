@@ -149,17 +149,6 @@ watch(
   { immediate: true },
 )
 
-/**
- * Humanize composition keyword name for display.
- * Converts camelCase to Title Case (e.g., oneOf -> One of).
- */
-const humanizeType = (type: CompositionKeyword): string =>
-  type
-    .replace(/([A-Z])/g, ' $1')
-    .replace(/^./, (str) => str.toUpperCase())
-    .toLowerCase()
-    .replace(/^(\w)/, (c) => c.toUpperCase())
-
 /** Inside the currently selected composition */
 const selectedComposition = computed(
   () => composition.value[Number(selectedOption.value?.id ?? '0')]?.value,
@@ -169,6 +158,15 @@ const selectedComposition = computed(
 const showNestedSchema = ref(false)
 
 const { t } = useI18n()
+
+/**
+ * Humanize composition keyword name for display using i18n.
+ * Converts camelCase keywords (oneOf, anyOf, allOf) to localized strings.
+ */
+const humanizeType = (type: CompositionKeyword): string => {
+  const key = `apiReference.schema.composition.${type}` as const
+  return t(key as Parameters<typeof t>[0])
+}
 
 if (
   requestBodyCompositionSelectionRef &&

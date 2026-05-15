@@ -4,6 +4,7 @@ import { ScalarIcon } from '@scalar/components'
 import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
 import { getResolvedRef } from '@scalar/workspace-store/helpers/get-resolved-ref'
 import type { HeaderObject } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
+import { useI18n } from 'vue-i18n'
 
 import Header from './Header.vue'
 
@@ -14,6 +15,8 @@ const { headers, breadcrumb } = defineProps<{
   orderRequiredPropertiesFirst: boolean | undefined
   orderSchemaPropertiesBy: 'alpha' | 'preserve' | undefined
 }>()
+
+const { t } = useI18n()
 </script>
 <template>
   <Disclosure v-slot="{ open }">
@@ -33,8 +36,10 @@ const { headers, breadcrumb } = defineProps<{
             :class="{ 'headers-card-title-icon--open': open }"
             icon="Add"
             size="sm" />
-          <template v-if="open"> Hide Headers </template>
-          <template v-else> Show Headers </template>
+          <template v-if="open">
+            {{ t('apiReference.headers.hide') }}
+          </template>
+          <template v-else> {{ t('apiReference.headers.show') }} </template>
         </DisclosureButton>
         <DisclosurePanel>
           <template

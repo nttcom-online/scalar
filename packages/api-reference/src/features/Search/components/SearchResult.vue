@@ -9,10 +9,12 @@ import {
 import type { ScalarIconComponent } from '@scalar/icons/types'
 import { HttpMethod } from '@scalar/sidebar'
 import type { FuseResult } from 'fuse.js'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import type { EntryType, FuseData } from '@/features/Search/types'
 
-defineProps<{
+const props = defineProps<{
   id: string
   isSelected: boolean
   result: FuseResult<FuseData>
@@ -26,12 +28,36 @@ const ENTRY_ICONS: { [x in EntryType]: ScalarIconComponent } = {
   webhook: ScalarIconTerminalWindow,
 }
 
-const ENTRY_LABELS: { [x in EntryType]: string } = {
-  heading: 'Heading',
-  operation: 'Operation',
-  tag: 'Tag',
-  model: 'Model',
-  webhook: 'Webhook',
+const { t } = useI18n()
+
+const entryLabels = computed(
+  (): Record<EntryType, string> => ({
+    heading: t('apiReference.search.entryLabels.heading'),
+    model: t('apiReference.search.entryLabels.model'),
+    operation: t('apiReference.search.entryLabels.operation'),
+    tag: t('apiReference.search.entryLabels.tag'),
+    webhook: t('apiReference.search.entryLabels.webhook'),
+  }),
+)
+
+/** Maps hardcoded description values (from the search index) to their entry types for translation. */
+const DESCRIPTION_TYPE_MAP: Partial<Record<string, EntryType>> = {
+  Heading: 'heading',
+  Model: 'model',
+  Webhook: 'webhook',
+}
+
+const translateDescription = (description: string): string => {
+  const type = DESCRIPTION_TYPE_MAP[description]
+  return type ? entryLabels.value[type] : description
+}
+
+const translateTitle = (item: FuseData): string => {
+  if (item.entry.type === 'models') return t('apiReference.models.label')
+  if (item.entry.type === 'text' && item.title === 'Introduction') {
+    return t('apiReference.introduction.label')
+  }
+  return item.title
 }
 </script>
 
@@ -47,7 +73,7 @@ const ENTRY_LABELS: { [x in EntryType]: string } = {
           result.item.entry.isDeprecated,
       }">
       <span class="sr-only">
-        {{ ENTRY_LABELS[result.item.type] }}:&nbsp;
+        {{ entryLabels[result.item.type] }}:&nbsp;
         <template
           v-if="
             result.item.entry.type === 'operation' &&
@@ -56,7 +82,7 @@ const ENTRY_LABELS: { [x in EntryType]: string } = {
           (Deprecated)&nbsp;
         </template>
       </span>
-      {{ result.item.title }}
+      {{ translateTitle(result.item) }}
       <span class="sr-only">,</span>
     </span>
     <template
@@ -83,7 +109,7 @@ const ENTRY_LABELS: { [x in EntryType]: string } = {
       v-else-if="result.item.description"
       #description>
       <span class="sr-only">Description:&nbsp;</span>
-      {{ result.item.description }}
+      {{ translateDescription(result.item.description) }}
     </template>
   </ScalarSearchResultItem>
 </template>

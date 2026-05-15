@@ -25,7 +25,7 @@ const { copyToClipboard } = useClipboard({
       <button
         class="property-default-label"
         type="button">
-        <span>Default</span>
+        <span>{{ t('apiReference.schema.default') }}</span>
       </button>
       <div class="property-default-value-list">
         <button

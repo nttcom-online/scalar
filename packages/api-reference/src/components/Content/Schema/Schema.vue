@@ -7,6 +7,7 @@ import type {
   SchemaObject,
 } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { computed, inject, provide } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import type { SchemaOptions } from '@/components/Content/Schema/types'
 import ScreenReader from '@/components/ScreenReader.vue'
@@ -19,6 +20,8 @@ import SchemaComposition from './SchemaComposition.vue'
 import SchemaHeading from './SchemaHeading.vue'
 import SchemaObjectProperties from './SchemaObjectProperties.vue'
 import SchemaProperty from './SchemaProperty.vue'
+
+const { t } = useI18n()
 
 const {
   schema,
@@ -198,7 +201,7 @@ const handleClick = (e: MouseEvent) => noncollapsible && e.stopPropagation()
               class="schema-card-title-icon"
               icon="Add"
               size="sm" />
-            Show additional properties
+            {{ t('apiReference.schema.showAdditionalProperties') }}
             <ScreenReader v-if="name">for {{ name }}</ScreenReader>
           </DisclosureButton>
         </div>
@@ -220,10 +223,20 @@ const handleClick = (e: MouseEvent) => noncollapsible && e.stopPropagation()
               icon="Add"
               size="sm" />
             <template v-if="open">
-              Hide {{ schema?.title ?? 'Child Attributes' }}
+              {{
+                t('apiReference.schema.hideLabel', {
+                  title:
+                    schema?.title ?? t('apiReference.schema.childAttributes'),
+                })
+              }}
             </template>
             <template v-else>
-              Show {{ schema?.title ?? 'Child Attributes' }}
+              {{
+                t('apiReference.schema.showLabel', {
+                  title:
+                    schema?.title ?? t('apiReference.schema.childAttributes'),
+                })
+              }}
             </template>
             <ScreenReader v-if="name">for {{ name }}</ScreenReader>
           </template>

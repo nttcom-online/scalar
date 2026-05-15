@@ -12,7 +12,14 @@
       "clear": "Clear Search",
       "navigate": "↑↓ Navigate",
       "select": "⏎ Select",
-      "instructions": "Press up arrow / down arrow to navigate, enter to select, type to filter results"
+      "instructions": "Press up arrow / down arrow to navigate, enter to select, type to filter results",
+      "entryLabels": {
+        "heading": "Heading",
+        "model": "Model",
+        "operation": "Operation",
+        "tag": "Tag",
+        "webhook": "Webhook"
+      }
     },
     "server": {
       "title": "Server"
@@ -74,6 +81,46 @@
     "notifications": {
       "copied": "Copied to the clipboard",
       "copyFailed": "Failed to copy to clipboard"
+    },
+    "schema": {
+      "default": "Default",
+      "example": "Example",
+      "examples": "Examples",
+      "values": "values",
+      "propertyNames": "property names",
+      "showValues": "Show all values",
+      "hideValues": "Hide values",
+      "showLabel": "Show {title}",
+      "hideLabel": "Hide {title}",
+      "childAttributes": "Child Attributes",
+      "showAdditionalProperties": "Show additional properties",
+      "composition": {
+        "oneOf": "One of",
+        "anyOf": "Any of",
+        "allOf": "All of"
+      }
+    },
+    "headers": {
+      "show": "Show Headers",
+      "hide": "Hide Headers"
+    },
+    "response": {
+      "noBody": "No Body"
+    },
+    "gettingStarted": {
+      "showExample": "Show Example"
+    },
+    "tags": {
+      "showAllEndpoints": "Show all {title} endpoints"
+    },
+    "devTools": {
+      "showSidebar": "Show Sidebar",
+      "hideClientButton": "Hide Client Button",
+      "hideDarkModeToggle": "Hide Dark Mode Toggle",
+      "hideModels": "Hide Models",
+      "hideSearch": "Hide Search",
+      "showOperationId": "Show Operation ID",
+      "hideTestRequestButton": "Hide Test Request Button"
     }
   },
   "apiClient": {

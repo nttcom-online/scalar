@@ -37,7 +37,9 @@ const hasMultipleExamples = computed(
 )
 
 const multipleExamplesLabel = computed(() =>
-  Object.keys(normalizedExamples.value).length === 1 ? 'Example' : 'Examples',
+  Object.keys(normalizedExamples.value).length === 1
+    ? t('apiReference.schema.example')
+    : t('apiReference.schema.examples'),
 )
 </script>
 <template>
@@ -47,7 +49,7 @@ const multipleExamplesLabel = computed(() =>
       <button
         class="property-example-label"
         type="button">
-        <span>Example</span>
+        <span>{{ t('apiReference.schema.example') }}</span>
       </button>
       <div class="property-example-value-list">
         <button

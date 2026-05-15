@@ -12,7 +12,14 @@
       "clear": "検索をクリア",
       "navigate": "↑↓ 移動",
       "select": "⏎ 選択",
-      "instructions": "上下キーで移動し、Enter で選択、入力で結果を絞り込みます"
+      "instructions": "上下キーで移動し、Enter で選択、入力で結果を絞り込みます",
+      "entryLabels": {
+        "heading": "見出し",
+        "model": "モデル",
+        "operation": "オペレーション",
+        "tag": "タグ",
+        "webhook": "Webhook"
+      }
     },
     "server": {
       "title": "サーバー"
@@ -24,7 +31,7 @@
       "title": "クライアントライブラリ"
     },
     "operations": {
-      "title": "操作"
+      "title": "エンドポイント一覧"
     },
     "webhooks": {
       "title": "Webhooks"
@@ -74,6 +81,46 @@
     "notifications": {
       "copied": "クリップボードにコピーしました",
       "copyFailed": "クリップボードへのコピーに失敗しました"
+    },
+    "schema": {
+      "default": "<デフォルト値>",
+      "example": "<例>",
+      "examples": "<例>",
+      "values": "<指定可能な値の一覧>",
+      "propertyNames": "プロパティ名",
+      "showValues": "値の一覧を開く",
+      "hideValues": "値の一覧を閉じる",
+      "showLabel": "{title}を開く",
+      "hideLabel": "{title}を閉じる",
+      "childAttributes": "子プロパティ",
+      "showAdditionalProperties": "追加プロパティを開く",
+      "composition": {
+        "oneOf": "[いずれか1つを選択]",
+        "anyOf": "[いずれかを選択]",
+        "allOf": "すべて"
+      }
+    },
+    "headers": {
+      "show": "ヘッダーを開く",
+      "hide": "ヘッダーを閉じる"
+    },
+    "response": {
+      "noBody": "ボディなし"
+    },
+    "gettingStarted": {
+      "showExample": "例を開く"
+    },
+    "tags": {
+      "showAllEndpoints": "{title}のすべてのエンドポイントを開く"
+    },
+    "devTools": {
+      "showSidebar": "サイドバーを開く",
+      "hideClientButton": "クライアントボタンを閉じる",
+      "hideDarkModeToggle": "ダークモード切替を閉じる",
+      "hideModels": "モデルを閉じる",
+      "hideSearch": "検索を閉じる",
+      "showOperationId": "オペレーション ID を開く",
+      "hideTestRequestButton": "テストリクエストボタンを閉じる"
     }
   },
   "apiClient": {
