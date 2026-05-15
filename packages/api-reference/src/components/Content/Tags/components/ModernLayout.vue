@@ -2,6 +2,7 @@
 import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
 import type { TraversedTag } from '@scalar/workspace-store/schemas/navigation'
 import { computed, useId } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { SectionContainer } from '@/components/Section'
 import ShowMoreButton from '@/components/ShowMoreButton.vue'
@@ -23,6 +24,8 @@ const moreThanOneDefaultTag = computed(
 )
 
 const hasChildren = computed(() => (tag?.children?.length ?? 0) > 0)
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -40,7 +43,9 @@ const hasChildren = computed(() => (tag?.children?.length ?? 0) > 0)
     <ShowMoreButton
       v-if="isCollapsed && moreThanOneTag && hasChildren"
       :id="tag.id"
-      :aria-label="`Show all ${tag.title} endpoints`"
+      :aria-label="
+        t('apiReference.tags.showAllEndpoints', { title: tag.title })
+      "
       @click="
         () => eventBus?.emit('toggle:nav-item', { id: tag.id, open: true })
       " />

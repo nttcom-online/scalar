@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ScalarButton } from '@scalar/components'
 import { themeLabels, type ThemeId } from '@scalar/themes'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   theme: ThemeId
@@ -33,6 +34,8 @@ async function fetchExampleSpecification() {
 
   emits('updateContent', await response.text())
 }
+
+const { t } = useI18n()
 </script>
 <template>
   <div class="custom-scroll start">
@@ -59,7 +62,7 @@ async function fetchExampleSpecification() {
         <ScalarButton
           class="w-full"
           @click="fetchExampleSpecification">
-          Show Example
+          {{ t('apiReference.gettingStarted.showExample') }}
         </ScalarButton>
         <ScalarButton
           class="w-full"

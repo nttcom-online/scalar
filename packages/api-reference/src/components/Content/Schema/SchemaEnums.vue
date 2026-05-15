@@ -5,6 +5,7 @@ import { resolve } from '@scalar/workspace-store/resolve'
 import type { SchemaObject } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { isArraySchema } from '@scalar/workspace-store/schemas/v3.1/strict/type-guards'
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import SchemaEnumPropertyItem from './SchemaEnumPropertyItem.vue'
 
@@ -102,6 +103,8 @@ const isExpanded = ref(false)
 const toggleExpanded = () => {
   isExpanded.value = !isExpanded.value
 }
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -111,12 +114,12 @@ const toggleExpanded = () => {
     <div
       v-if="propertyNames"
       class="property-enum-property-names">
-      property names
+      {{ t('apiReference.schema.propertyNames') }}
     </div>
     <div
       v-else
       class="property-enum-property-names">
-      values
+      {{ t('apiReference.schema.values') }}
     </div>
     <ul class="property-enum-values">
       <!-- Visible enum values -->
@@ -148,7 +151,11 @@ const toggleExpanded = () => {
           <ScalarIconPlus
             :class="{ 'rotate-45': isExpanded }"
             weight="bold" />
-          {{ isExpanded ? 'Hide values' : 'Show all values' }}
+          {{
+            isExpanded
+              ? t('apiReference.schema.hideValues')
+              : t('apiReference.schema.showValues')
+          }}
         </ScalarButton>
       </li>
     </ul>
