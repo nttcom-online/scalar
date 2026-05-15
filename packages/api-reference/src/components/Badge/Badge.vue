@@ -54,4 +54,9 @@ const badgeStyle = computed(() =>
   background: color-mix(in srgb, var(--scalar-color-green), transparent 90%);
   border: transparent;
 }
+.badge.early-access {
+  background: #d4ad03;
+  color: #ffffff;
+  border: transparent;
+}
 </style>

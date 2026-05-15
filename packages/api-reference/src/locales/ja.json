@@ -54,6 +54,7 @@
     },
     "operationMeta": {
       "latest": "最新",
+      "earlyAccess": "EARLY ACCESS",
       "scopes": "スコープ",
       "requestRateLimit": "リクエストレート制限",
       "requestRateLimits": "リクエストレート制限",

@@ -54,6 +54,7 @@
     },
     "operationMeta": {
       "latest": "Latest",
+      "earlyAccess": "EARLY ACCESS",
       "scopes": "Scopes",
       "requestRateLimit": "Request rate limit",
       "requestRateLimits": "Request Rate Limits",
