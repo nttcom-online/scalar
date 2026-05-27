@@ -37,7 +37,7 @@ export const REQUEST_METHODS = {
     backgroundColor: 'bg-yellow/10',
   },
   delete: {
-    short: 'DEL',
+    short: 'DELETE',
     colorClass: 'text-red',
     colorVar: 'var(--scalar-color-red)',
     backgroundColor: 'bg-red/10',
