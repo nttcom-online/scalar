@@ -243,6 +243,7 @@ const isDiscriminatorProperty = computed(() =>
     <!-- Enum values -->
     <SchemaEnums
       v-if="enumValues.length > 0"
+      :schemaContext="schemaContext"
       :value="optimizedValue" />
 
     <!-- Object -->

@@ -87,6 +87,8 @@
       "example": "Example",
       "examples": "Examples",
       "values": "values",
+      "valuesInRequests": "values",
+      "valuesInResponses": "values",
       "propertyNames": "property names",
       "showValues": "Show all values",
       "hideValues": "Hide values",

@@ -9,11 +9,13 @@ import { useI18n } from 'vue-i18n'
 
 import SchemaEnumPropertyItem from './SchemaEnumPropertyItem.vue'
 
-const { value } = defineProps<{
+const { value, schemaContext } = defineProps<{
   /** The schema object containing enum values and metadata */
   value: SchemaObject | undefined
   /** Whether to display the enum for property names */
   propertyNames?: boolean
+  /** Schema context to distinguish request vs response ('requestBody' = request) */
+  schemaContext?: string
 }>()
 
 const ENUM_DISPLAY_THRESHOLD = 9
@@ -119,7 +121,11 @@ const { t } = useI18n()
     <div
       v-else
       class="property-enum-property-names">
-      {{ t('apiReference.schema.values') }}
+      {{
+        schemaContext === 'requestBody'
+          ? t('apiReference.schema.valuesInRequests')
+          : t('apiReference.schema.valuesInResponses')
+      }}
     </div>
     <ul class="property-enum-values">
       <!-- Visible enum values -->
