@@ -95,13 +95,7 @@ const validationProperties = computed(() => {
       })
     }
 
-    // Unique items
-    if (schema.uniqueItems) {
-      properties.push({
-        key: 'unique-items',
-        value: 'unique!',
-      })
-    }
+    // Unique items (rendered as a dedicated badge, not here)
   }
 
   // String length properties
@@ -309,6 +303,13 @@ const exampleValue = computed(() => {
       v-if="props.value?.deprecated"
       class="property-deprecated">
       <Badge>deprecated</Badge>
+    </div>
+    <div
+      v-if="
+        props.value && isArraySchema(props.value) && props.value.uniqueItems
+      "
+      class="property-unique-items">
+      <Badge class="text-blue">{{ t('apiClient.labels.uniqueItems') }}</Badge>
     </div>
     <!-- Don't use `isDefined` here, we want to show `const` when the value is `null` -->
     <div
