@@ -13,10 +13,10 @@ import { useI18n } from 'vue-i18n'
 import { Badge } from '@/components/Badge'
 import ScreenReader from '@/components/ScreenReader.vue'
 
+import { formatValue } from './helpers/format-value'
 import { getSchemaType } from './helpers/get-schema-type'
 import { getModelNameFromSchema } from './helpers/schema-name'
 import RenderString from './RenderString.vue'
-import SchemaPropertyDefault from './SchemaPropertyDefault.vue'
 import SchemaPropertyDetail from './SchemaPropertyDetail.vue'
 import SchemaPropertyExamples from './SchemaPropertyExamples.vue'
 
@@ -340,7 +340,15 @@ const exampleValue = computed(() => {
       class="property-required">
       {{ t('apiClient.labels.required') }}
     </div>
-    <SchemaPropertyDefault :value="props.value?.default" />
+    <!-- Default value -->
+    <div
+      v-if="props.value?.default !== undefined"
+      class="property-default-inline">
+      <SchemaPropertyDetail truncate>
+        <template #prefix>default: </template>
+        {{ formatValue(props.value.default) }}
+      </SchemaPropertyDetail>
+    </div>
     <SchemaPropertyExamples
       v-if="props.withExamples"
       :example="exampleValue"
