@@ -56,7 +56,7 @@ describe('HttpMethod', () => {
         props: { method: 'delete', short: true },
       })
 
-      expect(wrapper.text()).toBe('DEL')
+      expect(wrapper.text()).toBe('DELETE')
     })
 
     it('displays abbreviated method name for all methods when short is true', () => {
@@ -65,7 +65,7 @@ describe('HttpMethod', () => {
         { method: 'post', expected: 'POST' },
         { method: 'put', expected: 'PUT' },
         { method: 'patch', expected: 'PATCH' },
-        { method: 'delete', expected: 'DEL' },
+        { method: 'delete', expected: 'DELETE' },
         { method: 'options', expected: 'OPTS' },
         { method: 'head', expected: 'HEAD' },
         { method: 'trace', expected: 'TRACE' },

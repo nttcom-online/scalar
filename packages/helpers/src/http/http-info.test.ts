@@ -33,7 +33,7 @@ describe('REQUEST_METHODS', () => {
     expect(REQUEST_METHODS.post.short).toBe('POST')
     expect(REQUEST_METHODS.put.short).toBe('PUT')
     expect(REQUEST_METHODS.patch.short).toBe('PATCH')
-    expect(REQUEST_METHODS.delete.short).toBe('DEL')
+    expect(REQUEST_METHODS.delete.short).toBe('DELETE')
     expect(REQUEST_METHODS.options.short).toBe('OPTS')
     expect(REQUEST_METHODS.head.short).toBe('HEAD')
     expect(REQUEST_METHODS.trace.short).toBe('TRACE')
@@ -47,7 +47,7 @@ describe('getHttpMethodInfo', () => {
       { input: 'Post', expectedShort: 'POST' },
       { input: '  put  ', expectedShort: 'PUT' },
       { input: 'PATCH', expectedShort: 'PATCH' },
-      { input: 'delete', expectedShort: 'DEL' },
+      { input: 'delete', expectedShort: 'DELETE' },
       { input: 'OPTIONS', expectedShort: 'OPTS' },
       { input: 'head', expectedShort: 'HEAD' },
       { input: 'trace', expectedShort: 'TRACE' },

@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+
 import HttpMethod from './HttpMethod.vue'
 
 describe('HttpMethod', () => {
@@ -55,7 +56,7 @@ describe('HttpMethod', () => {
         props: { method: 'DELETE', short: true },
       })
 
-      expect(wrapper.text()).toBe('DEL')
+      expect(wrapper.text()).toBe('DELETE')
     })
 
     it('displays abbreviated method name for all methods when short is true', () => {
@@ -64,7 +65,7 @@ describe('HttpMethod', () => {
         { method: 'POST', expected: 'POST' },
         { method: 'PUT', expected: 'PUT' },
         { method: 'PATCH', expected: 'PATCH' },
-        { method: 'DELETE', expected: 'DEL' },
+        { method: 'DELETE', expected: 'DELETE' },
         { method: 'OPTIONS', expected: 'OPTS' },
         { method: 'HEAD', expected: 'HEAD' },
         { method: 'TRACE', expected: 'TRACE' },
