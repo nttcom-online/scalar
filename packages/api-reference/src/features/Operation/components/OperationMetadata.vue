@@ -17,7 +17,8 @@ type OperationWithMetadata = OperationObject & {
 
 type DisplayRateLimit = {
   title: string
-  value: string
+  value?: string
+  lines?: string[]
 }
 
 const { operation } = defineProps<{
@@ -28,9 +29,13 @@ const { t } = useI18n()
 
 const scopes = computed(() => getOperationScopes(operation))
 
-const requestRateLimits = computed<DisplayRateLimit[]>(() =>
-  getOperationThrottlingInfo(operation)
-    .filter((rateLimit) => typeof rateLimit.numberOfRequests === 'number')
+const requestRateLimits = computed<DisplayRateLimit[]>(() => [
+  ...getOperationThrottlingInfo(operation)
+    .filter(
+      (rateLimit) =>
+        rateLimit.type !== 'token' &&
+        typeof rateLimit.numberOfRequests === 'number',
+    )
     .map((rateLimit) => {
       const period = getRateLimitPeriodValue(rateLimit)
       const periodLabel = [period.amount, t(period.unitKey)]
@@ -42,7 +47,17 @@ const requestRateLimits = computed<DisplayRateLimit[]>(() =>
         value: `${rateLimit.numberOfRequests} ${t('apiReference.operationMeta.requests')} / ${periodLabel}`,
       }
     }),
-)
+  ...getOperationThrottlingInfo(operation)
+    .filter((rateLimit) => rateLimit.type === 'token')
+    .map((rateLimit) => {
+      const burst = `${t('apiReference.operationMeta.burst')}: ${rateLimit.burstCapacity} ${t('apiReference.operationMeta.requests')}`
+      const refill = `${t('apiReference.operationMeta.refill')}: ${rateLimit.replenishRate} ${t('apiReference.operationMeta.requests')} / ${t('apiReference.operationMeta.timeUnits.second')}`
+      return {
+        title: t(getRateLimitTitleKey(rateLimit.type)),
+        lines: [burst, refill],
+      }
+    }),
+])
 
 const hasMetadata = computed(
   () => scopes.value.length > 0 || requestRateLimits.value.length > 0,
@@ -79,7 +94,18 @@ const hasMetadata = computed(
           <div class="text-c-1 font-medium">
             {{ rateLimit.title }}
           </div>
-          <div class="text-c-2 mt-1">
+          <div
+            v-if="rateLimit.lines"
+            class="text-c-2 mt-1 space-y-0.5">
+            <div
+              v-for="(line, lineIndex) in rateLimit.lines"
+              :key="lineIndex">
+              • {{ line }}
+            </div>
+          </div>
+          <div
+            v-else
+            class="text-c-2 mt-1">
             {{ rateLimit.value }}
           </div>
         </div>
