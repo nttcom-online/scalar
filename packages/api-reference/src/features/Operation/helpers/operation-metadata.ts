@@ -3,6 +3,9 @@ export type OperationThrottlingInfo = {
   numberOfRequests?: number
   numberOfTimeUnits?: number
   timeUnit?: string
+  replenishRate?: number
+  requestedTokens?: number
+  burstCapacity?: number
 }
 
 export type OperationVersionInfo = {
@@ -29,6 +32,7 @@ export type OperationRateLimitTimeUnitKey =
 export type OperationRateLimitTitleKey =
   | 'apiReference.operationMeta.requestRateLimit'
   | 'apiReference.operationMeta.timeBasedRateLimit'
+  | 'apiReference.operationMeta.tokenBasedRateLimit'
 
 type OperationMetadataExtensions = {
   operationId?: unknown
@@ -94,8 +98,11 @@ export const getOperationVersionBadges = (operation: unknown): OperationVersionB
     .filter((item): item is OperationVersionBadge => item !== null)
 }
 
-export const getRateLimitTitleKey = (type: string | undefined): OperationRateLimitTitleKey =>
-  type === 'time' ? 'apiReference.operationMeta.timeBasedRateLimit' : 'apiReference.operationMeta.requestRateLimit'
+export const getRateLimitTitleKey = (type: string | undefined): OperationRateLimitTitleKey => {
+  if (type === 'time') return 'apiReference.operationMeta.timeBasedRateLimit'
+  if (type === 'token') return 'apiReference.operationMeta.tokenBasedRateLimit'
+  return 'apiReference.operationMeta.requestRateLimit'
+}
 
 export const getRateLimitTimeUnitKey = (
   timeUnit: string | undefined,

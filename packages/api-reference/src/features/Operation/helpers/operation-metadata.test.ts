@@ -128,6 +128,10 @@ describe('operation-metadata', () => {
     expect(getRateLimitTitleKey('time')).toBe('apiReference.operationMeta.timeBasedRateLimit')
   })
 
+  it('returns the correct title key for token based limits', () => {
+    expect(getRateLimitTitleKey('token')).toBe('apiReference.operationMeta.tokenBasedRateLimit')
+  })
+
   it('returns the generic title key for unknown limit types', () => {
     expect(getRateLimitTitleKey('burst')).toBe('apiReference.operationMeta.requestRateLimit')
   })
