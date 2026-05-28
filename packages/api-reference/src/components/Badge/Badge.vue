@@ -59,4 +59,9 @@ const badgeStyle = computed(() =>
   color: #ffffff;
   border: transparent;
 }
+.badge.text-blue {
+  background: #eff6ff;
+  color: #0284c7;
+  border-color: transparent;
+}
 </style>

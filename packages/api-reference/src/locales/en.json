@@ -139,6 +139,7 @@
       "body": "Body",
       "readOnly": "read-only",
       "writeOnly": "write-only",
+      "uniqueItems": "unique items",
       "bearerToken": "Bearer Token",
       "token": "Token",
       "username": "Username",

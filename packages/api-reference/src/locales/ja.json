@@ -139,6 +139,7 @@
       "body": "ボディ",
       "readOnly": "読み取り専用",
       "writeOnly": "書き込み専用",
+      "uniqueItems": "重複不可",
       "bearerToken": "Bearerトークン",
       "token": "トークン",
       "username": "ユーザー名",
