@@ -13,6 +13,7 @@ import { useI18n } from 'vue-i18n'
 
 import { Anchor } from '@/components/Anchor'
 import { Badge } from '@/components/Badge'
+import HttpMethod from '@/components/HttpMethod/HttpMethod.vue'
 import { LinkList } from '@/components/LinkList'
 import OperationPath from '@/components/OperationPath.vue'
 import {
@@ -177,6 +178,15 @@ provide(REQUEST_BODY_COMPOSITION_INDEX_SYMBOL, requestBodyCompositionSelection)
           </Anchor>
         </SectionHeader>
       </div>
+      <!-- Endpoint path code block -->
+      <div class="operation-endpoint-display">
+        <code class="operation-endpoint-code"
+          ><HttpMethod
+            class="operation-endpoint-method"
+            :method="method" />
+          {{ path }}</code
+        >
+      </div>
       <SectionColumns>
         <SectionColumn>
           <div class="operation-details">
@@ -306,5 +316,18 @@ provide(REQUEST_BODY_COMPOSITION_INDEX_SYMBOL, requestBodyCompositionSelection)
 }
 .deprecated * {
   text-decoration: line-through;
+}
+.operation-endpoint-display {
+  margin-bottom: 12px;
+}
+.operation-endpoint-code {
+  font-family: var(--scalar-font-code);
+  font-size: var(--scalar-small);
+  background: var(--scalar-background-2);
+  border: 1px solid var(--scalar-border-color);
+  padding: 3px 8px;
+  border-radius: var(--scalar-radius);
+  color: var(--scalar-color-1);
+  word-break: break-all;
 }
 </style>
