@@ -86,7 +86,7 @@
       "default": "<デフォルト値>",
       "example": "<例>",
       "examples": "<例>",
-      "values": "<指定可能な値の一覧>",
+      "values": "<値の一覧>",
       "propertyNames": "プロパティ名",
       "showValues": "値の一覧を開く",
       "hideValues": "値の一覧を閉じる",
