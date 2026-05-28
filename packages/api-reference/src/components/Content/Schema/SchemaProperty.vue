@@ -16,7 +16,6 @@ import { SpecificationExtension } from '@/features/specification-extension'
 
 import { getCompositionsToRender } from './helpers/get-compositions-to-render'
 import { getEnumValues } from './helpers/get-enum-values'
-import { getPropertyDescription } from './helpers/get-property-description'
 import { hasComplexArrayItems } from './helpers/has-complex-array-items'
 import { optimizeValueForDisplay } from './helpers/optimize-value-for-display'
 import { shouldDisplayDescription } from './helpers/should-display-description'
@@ -125,11 +124,6 @@ const shouldRenderArrayOfObjects = computed(() => {
 /** Extract enum values from schema or array items */
 const enumValues = computed(() => getEnumValues(optimizedValue.value))
 
-/** Generate property description from type/format */
-const propertyDescription = computed(() =>
-  getPropertyDescription(optimizedValue.value),
-)
-
 /** Determine if description should be displayed */
 const displayDescription = computed(() =>
   shouldDisplayDescription(optimizedValue.value, props.description),
@@ -228,10 +222,9 @@ const isDiscriminatorProperty = computed(() =>
 
     <!-- Description -->
     <div
-      v-if="displayDescription || propertyDescription"
+      v-if="displayDescription"
       class="property-description">
-      <ScalarMarkdown
-        :value="displayDescription || propertyDescription || ''" />
+      <ScalarMarkdown :value="displayDescription || ''" />
     </div>
 
     <!-- Enum for property names -->
