@@ -1,4 +1,4 @@
-import type { SchemaObject } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
+import type { DiscriminatorObject, SchemaObject } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
 import { describe, expect, it } from 'vitest'
 
 import { getEnumValues } from './get-enum-values'
@@ -77,6 +77,55 @@ describe('get-enum-values', () => {
       } as SchemaObject
 
       expect(getEnumValues(schema)).toEqual([])
+    })
+
+    it('returns discriminator mapping keys when enum is not explicitly set', () => {
+      const schema = {
+        type: 'string',
+      } as SchemaObject
+
+      const discriminator = {
+        propertyName: 'type',
+        mapping: {
+          uploadedReference: '#/components/schemas/EmailMediaUploadedReference',
+          binary: '#/components/schemas/EmailMediaBinaryAttachment',
+        },
+      } as DiscriminatorObject
+
+      expect(getEnumValues(schema, discriminator, 'type')).toEqual(['uploadedReference', 'binary'])
+    })
+
+    it('prioritizes explicit enum over discriminator mapping keys', () => {
+      const schema = {
+        type: 'string',
+        enum: ['inlineValue'],
+      } as SchemaObject
+
+      const discriminator = {
+        propertyName: 'type',
+        mapping: {
+          uploadedReference: '#/components/schemas/EmailMediaUploadedReference',
+          binary: '#/components/schemas/EmailMediaBinaryAttachment',
+        },
+      } as DiscriminatorObject
+
+      expect(getEnumValues(schema, discriminator, 'type')).toEqual(['inlineValue'])
+    })
+
+    it('does not use discriminator mapping keys for non-discriminator property', () => {
+      const schema = {
+        type: 'string',
+      } as SchemaObject
+
+      const discriminator = {
+        propertyName: 'type',
+        mapping: {
+          uploadedReference: '#/components/schemas/EmailMediaUploadedReference',
+          binary: '#/components/schemas/EmailMediaBinaryAttachment',
+        },
+      } as DiscriminatorObject
+
+      expect(getEnumValues(schema, discriminator, 'contentType')).toEqual([])
     })
   })
 })

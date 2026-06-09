@@ -9,9 +9,11 @@ import { useI18n } from 'vue-i18n'
 
 import SchemaEnumPropertyItem from './SchemaEnumPropertyItem.vue'
 
-const { value } = defineProps<{
+const { value, enumValues: propsEnumValues } = defineProps<{
   /** The schema object containing enum values and metadata */
   value: SchemaObject | undefined
+  /** Precomputed enum values (e.g. discriminator mapping keys) */
+  enumValues?: unknown[]
   /** Whether to display the enum for property names */
   propertyNames?: boolean
 }>()
@@ -25,6 +27,10 @@ const THIN_SPACE = '\u2009'
  * Handles both direct enum values and nested enum arrays.
  */
 const enumValues = computed(() => {
+  if (propsEnumValues && propsEnumValues.length > 0) {
+    return propsEnumValues
+  }
+
   if (!value) {
     return []
   }
