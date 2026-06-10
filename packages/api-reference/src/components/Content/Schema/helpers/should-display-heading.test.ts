@@ -39,5 +39,32 @@ describe('should-display-heading', () => {
 
       expect(shouldDisplayHeading(schema)).toBe(true)
     })
+
+    it('returns true when schema has contentMediaType', () => {
+      const schema = {
+        contentMediaType: 'application/json',
+      } as SchemaObject
+
+      expect(shouldDisplayHeading(schema)).toBe(true)
+    })
+
+    it('returns true when schema has min/max properties constraints', () => {
+      const schema = {
+        minProperties: 1,
+        maxProperties: 5,
+      } as SchemaObject
+
+      expect(shouldDisplayHeading(schema)).toBe(true)
+    })
+
+    it('returns true when schema has xml name', () => {
+      const schema = {
+        xml: {
+          name: 'XmlTag',
+        },
+      } as SchemaObject
+
+      expect(shouldDisplayHeading(schema)).toBe(true)
+    })
   })
 })

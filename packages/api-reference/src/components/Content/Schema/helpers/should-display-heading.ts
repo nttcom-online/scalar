@@ -19,12 +19,18 @@ export const shouldDisplayHeading = (schema: SchemaObject | undefined, name?: st
     return false
   }
 
+  const schemaRecord = schema as Record<string, unknown>
+
   // Check schema properties that warrant a heading
   return (
     schema.deprecated === true ||
     schema.const !== undefined ||
     schema.enum?.length === 1 ||
     ('type' in schema && schema.type !== undefined) ||
+    schema.contentMediaType !== undefined ||
+    schemaRecord.minProperties !== undefined ||
+    schemaRecord.maxProperties !== undefined ||
+    schema.xml?.name !== undefined ||
     ('nullable' in schema && schema.nullable === true) ||
     schema.writeOnly === true ||
     schema.readOnly === true

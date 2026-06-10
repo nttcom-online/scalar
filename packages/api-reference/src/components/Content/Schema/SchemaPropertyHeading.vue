@@ -86,33 +86,38 @@ const validationProperties = computed(() => {
   const schema = valueRef.value
   const properties = []
 
+  const addRangeProperty = (
+    key: string,
+    start: number | undefined,
+    end: number | undefined,
+  ) => {
+    if (!isDefined(start) && !isDefined(end)) {
+      return
+    }
+
+    properties.push({
+      key,
+      value: `[${isDefined(start) ? start : ''}...${isDefined(end) ? end : ''}]`,
+    })
+  }
+
   // Array validation properties
   if (isArraySchema(schema)) {
-    if (schema.minItems || schema.maxItems) {
-      properties.push({
-        key: 'array-range',
-        value: `${schema.minItems || ''}…${schema.maxItems || ''}`,
-      })
-    }
+    addRangeProperty('array-range', schema.minItems, schema.maxItems)
 
     // Unique items (rendered as a dedicated badge, not here)
   }
 
   // String length properties
   if (isStringSchema(schema)) {
-    if (schema.minLength) {
-      properties.push({
-        key: 'min-length',
-        prefix: 'min length: ',
-        value: schema.minLength,
-      })
-    }
+    addRangeProperty('string-length-range', schema.minLength, schema.maxLength)
 
-    if (schema.maxLength) {
+    if (schema.contentMediaType) {
       properties.push({
-        key: 'max-length',
-        prefix: 'max length: ',
-        value: schema.maxLength,
+        key: 'content-media-type',
+        prefix: 'media type: ',
+        value: schema.contentMediaType,
+        truncate: true,
       })
     }
 
@@ -148,14 +153,6 @@ const validationProperties = computed(() => {
       })
     }
 
-    if (isDefined(schema.minimum)) {
-      properties.push({
-        key: 'minimum',
-        prefix: 'min: ',
-        value: schema.minimum,
-      })
-    }
-
     if (isDefined(schema.exclusiveMaximum)) {
       properties.push({
         key: 'exclusive-maximum',
@@ -164,13 +161,7 @@ const validationProperties = computed(() => {
       })
     }
 
-    if (isDefined(schema.maximum)) {
-      properties.push({
-        key: 'maximum',
-        prefix: 'max: ',
-        value: schema.maximum,
-      })
-    }
+    addRangeProperty('number-range', schema.minimum, schema.maximum)
 
     if (isDefined(schema.multipleOf)) {
       properties.push({
@@ -179,6 +170,26 @@ const validationProperties = computed(() => {
         value: schema.multipleOf,
       })
     }
+  }
+
+  const minProperties =
+    'minProperties' in schema && typeof schema.minProperties === 'number'
+      ? schema.minProperties
+      : undefined
+  const maxProperties =
+    'maxProperties' in schema && typeof schema.maxProperties === 'number'
+      ? schema.maxProperties
+      : undefined
+
+  addRangeProperty('object-property-range', minProperties, maxProperties)
+
+  if (schema.xml?.name) {
+    properties.push({
+      key: 'xml-name',
+      prefix: 'xml name: ',
+      value: schema.xml.name,
+      truncate: true,
+    })
   }
 
   return properties
@@ -274,6 +285,13 @@ const exampleValue = computed(() => {
       <SchemaPropertyDetail
         v-for="property in validationProperties"
         :key="property.key"
+        :class="{
+          'property-range':
+            property.key === 'array-range' ||
+            property.key === 'string-length-range' ||
+            property.key === 'number-range' ||
+            property.key === 'object-property-range',
+        }"
         :code="property.code"
         :truncate="property.truncate">
         <ScreenReader v-if="property.key === 'format'">Format:</ScreenReader>
@@ -380,6 +398,10 @@ const exampleValue = computed(() => {
 
 .property-heading > .property-detail:not(:last-of-type) {
   margin-right: 0;
+}
+
+.property-heading > .property-range {
+  color: var(--scalar-color-orange);
 }
 
 .property-name {
