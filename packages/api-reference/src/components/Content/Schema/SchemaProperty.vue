@@ -122,7 +122,9 @@ const shouldRenderArrayOfObjects = computed(() => {
 })
 
 /** Extract enum values from schema or array items */
-const enumValues = computed(() => getEnumValues(optimizedValue.value))
+const enumValues = computed(() =>
+  getEnumValues(optimizedValue.value, props.discriminator, props.name),
+)
 
 /** Determine if description should be displayed */
 const displayDescription = computed(() =>
@@ -236,6 +238,7 @@ const isDiscriminatorProperty = computed(() =>
     <!-- Enum values -->
     <SchemaEnums
       v-if="enumValues.length > 0"
+      :enumValues="enumValues"
       :value="optimizedValue" />
 
     <!-- Object -->

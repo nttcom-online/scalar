@@ -150,6 +150,11 @@ const discriminatorCompositions = computed(() => {
   ]
 })
 
+/** Use passed discriminator first, otherwise fall back to the current schema's discriminator. */
+const effectiveDiscriminator = computed(
+  () => discriminator ?? schema?.discriminator,
+)
+
 // When this Schema generates discriminator compositions, mark all descendants
 // so they won't generate their own (prevents infinite nesting)
 provide(
@@ -261,7 +266,7 @@ const handleClick = (e: MouseEvent) => noncollapsible && e.stopPropagation()
               :breadcrumb
               :compact
               :compositionPath="compositionPath"
-              :discriminator
+              :discriminator="effectiveDiscriminator"
               :eventBus="eventBus"
               :hideHeading
               :hideModelNames
