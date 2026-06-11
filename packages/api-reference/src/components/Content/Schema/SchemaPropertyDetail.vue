@@ -51,7 +51,7 @@ defineProps<{
 code.property-detail-value {
   font-family: var(--scalar-font-code);
   font-size: var(--scalar-font-size-3);
-  color: var(--scalar-color-2);
+  color: var(--scalar-color-orange);
   background: color-mix(
     in srgb,
     var(--scalar-background-2),

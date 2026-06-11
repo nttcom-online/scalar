@@ -347,6 +347,70 @@ describe('SchemaPropertyHeading', () => {
     expect(detailsElement.text()).toContain('0.001')
   })
 
+  it('renders string length range properties', () => {
+    const wrapper = mount(SchemaPropertyHeading, {
+      props: {
+        value: coerceValue(SchemaObjectSchema, {
+          type: 'string',
+          minLength: 0,
+          maxLength: 4000,
+        }),
+      },
+    })
+
+    const detailsElement = wrapper.find('.property-heading')
+    expect(detailsElement.text()).toContain('[ 0 .. 4000 ]')
+    expect(detailsElement.text()).not.toContain('min length:')
+    expect(detailsElement.text()).not.toContain('max length:')
+  })
+
+  it('renders object property count range', () => {
+    const wrapper = mount(SchemaPropertyHeading, {
+      props: {
+        value: coerceValue(SchemaObjectSchema, {
+          type: 'object',
+          minProperties: 1,
+          maxProperties: 5,
+        }),
+      },
+    })
+
+    const detailsElement = wrapper.find('.property-heading')
+    expect(detailsElement.text()).toContain('[ 1 .. 5 ]')
+  })
+
+  it('renders contentMediaType', () => {
+    const wrapper = mount(SchemaPropertyHeading, {
+      props: {
+        value: coerceValue(SchemaObjectSchema, {
+          type: 'string',
+          contentMediaType: 'application/json',
+        }),
+      },
+    })
+
+    const detailsElement = wrapper.find('.property-heading')
+    expect(detailsElement.text()).toContain('media type:')
+    expect(detailsElement.text()).toContain('application/json')
+  })
+
+  it('renders xml name', () => {
+    const wrapper = mount(SchemaPropertyHeading, {
+      props: {
+        value: coerceValue(SchemaObjectSchema, {
+          type: 'string',
+          xml: {
+            name: 'XmlTag',
+          },
+        }),
+      },
+    })
+
+    const detailsElement = wrapper.find('.property-heading')
+    expect(detailsElement.text()).toContain('xml name:')
+    expect(detailsElement.text()).toContain('XmlTag')
+  })
+
   describe('exclusiveMinimum and exclusiveMaximum', () => {
     it('renders exclusiveMinimum property', () => {
       const wrapper = mount(SchemaPropertyHeading, {
@@ -393,7 +457,7 @@ describe('SchemaPropertyHeading', () => {
       expect(detailsElement.text()).toContain('10')
     })
 
-    it('renders minimum and maximum properties when exclusive values are not present', () => {
+    it('renders minimum and maximum as a range when exclusive values are not present', () => {
       const wrapper = mount(SchemaPropertyHeading, {
         props: {
           value: coerceValue(SchemaObjectSchema, {
@@ -404,10 +468,9 @@ describe('SchemaPropertyHeading', () => {
         },
       })
       const detailsElement = wrapper.find('.property-heading')
-      expect(detailsElement.text()).toContain('min:')
-      expect(detailsElement.text()).toContain('0')
-      expect(detailsElement.text()).toContain('max:')
-      expect(detailsElement.text()).toContain('100')
+      expect(detailsElement.text()).toContain('[0...100]')
+      expect(detailsElement.text()).not.toContain('min:')
+      expect(detailsElement.text()).not.toContain('max:')
     })
 
     it('renders exclusiveMinimum and maximum properties together', () => {
@@ -423,7 +486,7 @@ describe('SchemaPropertyHeading', () => {
       const detailsElement = wrapper.find('.property-heading')
       expect(detailsElement.text()).toContain('greater than:')
       expect(detailsElement.text()).toContain('1')
-      expect(detailsElement.text()).toContain('max:')
+      expect(detailsElement.text()).toContain('[...100]')
       expect(detailsElement.text()).toContain('100')
     })
 
@@ -438,8 +501,7 @@ describe('SchemaPropertyHeading', () => {
         },
       })
       const detailsElement = wrapper.find('.property-heading')
-      expect(detailsElement.text()).toContain('min:')
-      expect(detailsElement.text()).toContain('0')
+      expect(detailsElement.text()).toContain('[0...]')
       expect(detailsElement.text()).toContain('less than:')
       expect(detailsElement.text()).toContain('10')
     })
