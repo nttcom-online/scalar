@@ -359,7 +359,7 @@ describe('SchemaPropertyHeading', () => {
     })
 
     const detailsElement = wrapper.find('.property-heading')
-    expect(detailsElement.text()).toContain('[0...4000]')
+    expect(detailsElement.text()).toContain('[ 0 .. 4000 ]')
     expect(detailsElement.text()).not.toContain('min length:')
     expect(detailsElement.text()).not.toContain('max length:')
   })
@@ -376,7 +376,7 @@ describe('SchemaPropertyHeading', () => {
     })
 
     const detailsElement = wrapper.find('.property-heading')
-    expect(detailsElement.text()).toContain('[1...5]')
+    expect(detailsElement.text()).toContain('[ 1 .. 5 ]')
   })
 
   it('renders contentMediaType', () => {

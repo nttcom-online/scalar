@@ -97,7 +97,7 @@ const validationProperties = computed(() => {
 
     properties.push({
       key,
-      value: `[${isDefined(start) ? start : ''}...${isDefined(end) ? end : ''}]`,
+      value: `[ ${isDefined(start) ? start : ''} .. ${isDefined(end) ? end : ''} ]`,
     })
   }
 
